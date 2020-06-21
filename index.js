@@ -207,6 +207,12 @@ app.use(morgan("common"));
 //Use bodyParser
 app.use(bodyParser.json());
 
+//Home page welcome greeting
+app.get("/", (_req, res) => {
+    res.send("Welcome to the myFlix app!");
+    console.log("Welcome to the myFlix app!");
+  });
+
 //Gets a list of all movies
 app.get("/movies", (req, res) => {
   res.json(movies);
