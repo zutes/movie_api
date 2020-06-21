@@ -45,8 +45,8 @@ const cors = require("cors");
 
 let allowedOrigins = [
   "http://localhost:8080",
-  "http://warm-gorge-02858.herokuapp.com/",
-  "https://warm-gorge-02858.herokuapp.com/",
+  "http://shielded-oasis-17182.herokuapp.com/",
+  "https://shielded-oasis-17182.herokuapp.com/"
 ];
 
 //let allowedOrigins = ['*'];
@@ -69,7 +69,7 @@ app.use(
 
 
 
-app.get("/", (_req, res) => {
+app.get("/", (req, res) => {
   res.send("Welcome to the myFlix app!");
   console.log("Welcome to the myFlix app!");
 });
