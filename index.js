@@ -1,8 +1,19 @@
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
 const express = require("express"),
   bodyParser = require("body-parser"),
   uuid = require("uuid"),
   morgan = require("morgan"),
   app = express();
+
+  let Movie = mongoose.model('Movie', movieSchema);
+  let User = mongoose.model('User', userSchema);
 
 //My top 10 movies
 let movies = [
@@ -10,8 +21,8 @@ let movies = [
     id: 1,
     title: "Ghostbusters",
     description:
-      "Three former parapsychology professors set up shop as a unique ghost removal service. ",
-    genre: "Action, Comdey, Fantasy",
+      "Three former parapsychology professors set up shop as a unique ghost removal service.",
+    genre: "Comedy",
     director: "Ivan Reitman",
     image: "img/ghostbusters.png",
     //featured: 'Yes'
@@ -20,8 +31,8 @@ let movies = [
     id: 2,
     title: "Indiana Jones and the Raiders of the Lost Ark",
     description:
-      "In 1936, archaeologist and adventurer Indiana Jones is hired by the U.S. government to find the Ark of the Covenant before Adolf Hitler's Nazis can obtain its awesome powers. ",
-    genre: " Action, Adventure",
+      "In 1936, archaeologist and adventurer Indiana Jones is hired by the U.S. government to find the Ark of the Covenant before Adolf Hitler's Nazis can obtain its awesome powers.",
+    genre: "Adventure",
     director: "Steven Spielberg",
     image: "img/indiana_jones.png",
     //featured: 'No'
@@ -31,7 +42,7 @@ let movies = [
     title: "Happy Gilmore",
     description:
       "A rejected hockey player puts his skills to the golf course to save his grandmother's house.",
-    genre: "Comedy, Sport",
+    genre: "Comedy",
     director: "Dennis Dugan",
     image: "img/happy_gilmore.png",
     //featured: 'No'
@@ -51,7 +62,7 @@ let movies = [
     title: "Glory",
     description:
       "Robert Gould Shaw leads the U.S. Civil War's first all-black volunteer company, fighting prejudices from both his own Union Army, and the Confederates.",
-    genre: " Biography, Drama",
+    genre: "Biography",
     director: "Edward Zwick",
     image: "img/glory.png",
     //featured: 'Yes'
@@ -61,7 +72,7 @@ let movies = [
     title: "The Lord of the Rings: The Fellowship of the Ring",
     description:
       "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
-    genre: "Action, Adventure, Drama ",
+    genre: "Fantasy",
     director: "Peter Jackson",
     image: "img/lord_rings.png",
     //featured: 'Yes'
@@ -71,7 +82,7 @@ let movies = [
     title: "Scrooge",
     description:
       "A musical retelling of Charles Dickens' classic novel about an old bitter miser taken on a journey of self-redemption, courtesy of several mysterious Christmas apparitions. ",
-    genre: "Drama, Fantasy",
+    genre: "Drama",
     director: "Ronald Neame",
     image: "img/scrooge.png",
     //featured: 'Yes'
@@ -81,7 +92,7 @@ let movies = [
     title: "Event Horizon",
     description:
       "A rescue crew investigates a spaceship that disappeared into a black hole and has now returned...with someone or something new on-board.",
-    genre: "Horror, Sci-Fi, Thriller",
+    genre: "Sci-Fi",
     director: "Paul W.S. Anderson",
     image: "img/event_horizon.png",
     //featured: 'Yes'
@@ -90,8 +101,8 @@ let movies = [
     id: 9,
     title: "Friday",
     description:
-      "Two homies, Smokey and Craig Jones, smoke a dope dealer's weed and try to figure a way to get the two hundred dollars they owe to the dealer by 10 p.m. that same night. ",
-    genre: "Comedy, Drama",
+      "Two homies, Smokey and Craig Jones, smoke a dope dealer's weed and try to figure a way to get the two hundred dollars they owe to the dealer by 10 p.m. that same night.",
+    genre: "Comedy",
     director: "F. Gary Gray",
     image: "img/friday.png",
     //featured: 'Yes'
@@ -101,11 +112,31 @@ let movies = [
     title: "The Simpsons Movie",
     description:
       "After Homer deliberately pollutes the town's water supply, Springfield is encased in a gigantic dome by the EPA and the family are declared fugitives.",
-    genre: "Animation, Adventure, Comedy",
+    genre: "Animation",
     director: "David Silverman",
     image: "img/the_simpsons.png",
     //featured: 'Yes'
   },
+
+  {
+    id: 11,
+    title: "Saving Private Ryan",
+    description: "Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.",
+    genre: "Drama",
+    director: "Steven Spielberg",
+    image: "img/saving_ryan.png",
+    //featured: 'Yes'
+  },
+
+  {
+    id: 12,
+    title: "Waking Life",
+    description: "A man shuffles through a dream meeting various people and discussing the meanings and purposes of the universe.",
+    genre: "Drama",
+    director: "Richard Linklater",
+    image: "img/waking_life.png",
+    //featured: 'Yes'
+  }
 ];
 
 //Genres
@@ -207,12 +238,6 @@ app.use(morgan("common"));
 //Use bodyParser
 app.use(bodyParser.json());
 
-//Home page welcome greeting
-app.get("/", (_req, res) => {
-    res.send("Welcome to the myFlix app!");
-    console.log("Welcome to the myFlix app!");
-  });
-
 //Gets a list of all movies
 app.get("/movies", (req, res) => {
   res.json(movies);
@@ -245,18 +270,39 @@ app.get("/directors/:name", (req, res) => {
   );
 });
 
-//Creates a new user
-app.post("/users", (req, res) => {
-  let newUser = req.body;
-
-  if (!newUser.name) {
-    const message = "Missing name in request body";
-    res.status(400).send(message);
-  } else {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).send(newUser);
-  }
+///Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
+app.post('/users', (req, res) => {
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then((user) =>{res.status(201).json(user) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
 });
 
 //Updates a user's info
