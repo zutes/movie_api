@@ -32,8 +32,7 @@ mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 */
 
 //MongoDB Atlas and Heroku db connection
-
-mongoose.connect( process.env.CONNECTION_URI, {
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -42,14 +41,11 @@ mongoose.connect( process.env.CONNECTION_URI, {
 const cors = require("cors");
 
 //CORS sites granted access
-
 let allowedOrigins = [
   "http://localhost:8080",
   "http://shielded-oasis-17182.herokuapp.com/",
-  "https://shielded-oasis-17182.herokuapp.com/"
+  "https://shielded-oasis-17182.herokuapp.com/",
 ];
-
-//let allowedOrigins = ['*'];
 
 app.use(
   cors({
@@ -66,8 +62,6 @@ app.use(
     },
   })
 );
-
-
 
 app.get("/", (req, res) => {
   res.send("Welcome to the myFlix app!");
@@ -162,10 +156,10 @@ app.post(
   (req, res) => {
     let errors = validationResult(req);
 
-if (!errors.isEmpty()) {
-  return res.status(422).json({ errors: errors.array() });
-}
-    let hashedPassword = Users.hashPassword(req.body.Password)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
       .then((user) => {
         if (user) {
@@ -195,7 +189,6 @@ if (!errors.isEmpty()) {
 );
 
 // check the validation object for errors
-
 
 // Update a user's info, by username
 // We’ll expect JSON in this format
