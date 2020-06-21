@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zach's Movie API</title>
+</head>
+
+<body>
+  <p>To build the server­side component of a “movies” web application. The web application will
+    provide users with access to information about different movies, directors, and genres. Users
+    will be able to sign up, update their personal information, and create a list of their favorite movies.</p>
+
+  <h2>This documents each of my endpoints: </h2>
+
+  <h4>(Description -- URL -- HTTP Method -- Request body data format -- Response body data format)</h4>
+  <p>Return a list of all movies to the user -- /movies -- GET -- None -- JSON object holding data about movie id,
+    title, description, genre, director, image
+  </p>
+  <p>Return info about a single movie by title -- /movies/[Title] -- GET -- None --A JSON object about holding data
+    about a single movie:
+    "Genre": {
+    "Name": "Biography",
+    "Description": "A biographical film, or biopic, is a film that dramatizes the life of a non-fictional or
+    historically-based person or people. Such films show the life of a historical person and the central character's
+    real name is used.[2] They differ from docudrama films and historical drama films in that they attempt to
+    comprehensively tell a single person's life story or at least the most historically important years of their lives."
+    },
+    "Director": {
+    "Name": "Edward Zwick",
+    "Bio": "Edward M. Zwick is an American filmmaker and producer of film and television. He has worked primarily in the
+    comedy-drama and epic historical film genres, including About Last Night, Glory, Legends of the Fall, and The Last
+    Samurai.",
+    "Birth": "1952"
+    },
+    "Actors": [],
+    "_id": "5ee3c7842344cd636ace8404",
+    "Title": "Glory",
+    "Description": "Robert Gould Shaw leads the U.S. Civil War's first all-black volunteer company, fighting prejudices
+    from both his own Union Army, and the Confederates."
+    -- JSON object holding data about a single movie (id, title, description, genre, director, image)
+  </p>
+  <p>Return desciption of a movie genre -- movies/genres/[Name] -- GET -- None -- JSON object holding data about movie
+    genre</p>
+  <p>Return movie director's info (name and birthdate) -- moveis/directors/[Name] -- GET -- None -- JSON object holding
+    data
+    about movie director (name and birthdate)</p>
+  <p>Allows new users to register with app -- /users -- POST -- JSON object holding user data:
+
+    "Username" : "testuser1",
+    "Password" : "123",
+    "Email" : "testuser1@email.com",
+    "Birthday" : "01/01/2000"
+    
+    --A text
+    message with info that user's account has been successfully deleted from the app
+
+
+
+
+  </p>
+  <p>Update a user's info -- /users/[username] -- PUT -- A JSON object with the user's info:
+    
+    Username: "testuser2",
+    Password: "1234",
+    Email: testuser2@email.com,
+    Birthday: "2000-01-01"
+    -- A text
+    message with info that user's account has been successfully deleted from the app
+
+
+
+  </p>
+  <p>Allows users to add a movie to their favorites -- /users/[Username]/Movies/[MovieID] -- POST --
+    MovieID:"_id" : ObjectId("5ee3c7842344cd636ace8400")--
+    {
+    "FavoriteMovies": [],
+    "_id": "5ee3c88d2344cd636ace840d",
+    "Username": "mrburns2",
+    "Password": "newpassword123",
+    "Email": "newemail@email.com",
+    "Birthday": null
+    }</p>
+  <p>Allows users to delete a movie to their favorites -- /users/[Username]/Movies/[MovieID] -- DELETE -- MovieID:"_id" : ObjectId("5ee3c7842344cd636ace8400")--{
+    "FavoriteMovies": [],
+    "_id": "5ee3c88d2344cd636ace840d",
+    "Username": "mrburns2",
+    "Password": "newpassword123",
+    "Email": "newemail@email.com",
+    "Birthday": null
+}</p>
+  <p>Allows users to delete their account -- /users/[Username] -- DELETE -- http://localhost:8080/users/mrburns2 -- A text
+    message with info that user's account has been successfully deleted from the app</p>
+
+</body>
+
+</html>
