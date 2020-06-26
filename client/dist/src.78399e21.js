@@ -30167,9 +30167,9 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          _onClick = _this$props.onClick;
       if (!movie) return null;
       return _react.default.createElement("div", {
         className: "movie-view"
@@ -30200,12 +30200,13 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)), _react.default.createElement("div", null, _react.default.createElement("button", {
-        variant: "primary",
-        classname: "back-button",
+      }, movie.Director.Name)), _react.default.createElement("div", {
+        className: "movie-back",
         onClick: function onClick() {
-          return _this2.onResetSelectedMovie;
+          return _onClick();
         }
+      }, _react.default.createElement("button", {
+        type: "button"
       }, "Back")));
     }
   }]);
@@ -30314,7 +30315,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       return _react.default.createElement("div", {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
-        movie: selectedMovie
+        movie: selectedMovie,
+        onClick: function onClick() {
+          return _this3.onMovieClick(null);
+        }
       }) : movies.map(function (movie) {
         return _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
