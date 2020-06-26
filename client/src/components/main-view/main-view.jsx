@@ -17,7 +17,7 @@ class MainView extends React.Component {
 
     // One of the "hooks" available in a React Component
     componentDidMount() {
-      axios.get('https://shielded-oasis-17182.herokuapp.com/movies>')
+      axios.get('https://shielded-oasis-17182.herokuapp.com/movies')
         .then(response => {
           // Assign the result to the state
           this.setState({
