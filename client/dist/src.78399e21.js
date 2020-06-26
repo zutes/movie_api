@@ -30051,6 +30051,11 @@ module.exports = require('./lib/axios');
 },{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MainView = void 0;
+
 var _react = _interopRequireDefault(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
@@ -30089,15 +30094,13 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, MainView);
 
-    // Call the superclass constructor
-    // so React can initialize it
-    _this = _super.call(this); // Initialize the state to an empty object so we can destructure it later
-
-    _this.state = {};
+    _this = _super.call(this);
+    _this.state = {
+      movies: null,
+      selectedMovie: null
+    };
     return _this;
-  } // This overrides the render() method of the superclass
-  // No need to call super() though, as it does nothing by default
-  // One of the "hooks" available in a React Component
+  } // One of the "hooks" available in a React Component
 
 
   _createClass(MainView, [{
@@ -30129,14 +30132,16 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, movies.map(function (movie) {
         return _react.default.createElement("div", {
           className: "movie-card",
-          key: movies._id
-        }, movies.Title);
+          key: movie._id
+        }, movie.Title);
       }));
     }
   }]);
 
   return MainView;
 }(_react.default.Component);
+
+exports.MainView = MainView;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js"}],"../../../../../../../../home/zutes34/.nvm/versions/node/v12.18.1/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
@@ -30298,7 +30303,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63333" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64336" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
