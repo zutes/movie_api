@@ -13,14 +13,7 @@ class MainView extends React.Component {
 
   // This overrides the render() method of the superclass
   // No need to call super() though, as it does nothing by default
-  render() {
-    return (
-     <div className="main-view"></div>
-    );
-  }
-}
-
-  export class MainView extends React.Component {
+ 
 
     // One of the "hooks" available in a React Component
     componentDidMount() {
