@@ -3,13 +3,19 @@ import axios from 'axios';
 
 export class MainView extends React.Component {
   constructor() {
+    // Call the superclass constructor
+    // so React can initialize it
     super();
+    // Initialize the state to an empty object so we can destructure it later
 
     this.state = {
       movies: null,
       selectedMovie: null,
     };
   }
+// This overrides the render() method of the superclass
+  // No need to call super() though, as it does nothing by default
+
   // One of the "hooks" available in a React Component
   componentDidMount() {
     axios

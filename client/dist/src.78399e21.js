@@ -30094,13 +30094,18 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, MainView);
 
-    _this = _super.call(this);
+    // Call the superclass constructor
+    // so React can initialize it
+    _this = _super.call(this); // Initialize the state to an empty object so we can destructure it later
+
     _this.state = {
       movies: null,
       selectedMovie: null
     };
     return _this;
-  } // One of the "hooks" available in a React Component
+  } // This overrides the render() method of the superclass
+  // No need to call super() though, as it does nothing by default
+  // One of the "hooks" available in a React Component
 
 
   _createClass(MainView, [{
@@ -30303,7 +30308,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64336" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64443" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
