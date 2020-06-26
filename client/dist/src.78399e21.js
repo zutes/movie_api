@@ -30129,8 +30129,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, movies.map(function (movie) {
         return _react.default.createElement("div", {
           className: "movie-card",
-          key: movie._id
-        }, movie.Title);
+          key: movies._id
+        }, movies.Title);
       }));
     }
   }]);
