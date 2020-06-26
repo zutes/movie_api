@@ -30167,6 +30167,8 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement("div", {
@@ -30198,20 +30200,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)), _react.default.createElement("div", null, _react.default.createElement(Button, {
-        onClick: function (_onClick) {
-          function onClick() {
-            return _onClick.apply(this, arguments);
-          }
-
-          onClick.toString = function () {
-            return _onClick.toString();
-          };
-
-          return onClick;
-        }(function () {
-          return onClick();
-        })
+      }, movie.Director.Name)), _react.default.createElement("div", null, _react.default.createElement("button", {
+        variant: "primary",
+        classname: "back-button",
+        onClick: function onClick() {
+          return _this2.onResetSelectedMovie;
+        }
       }, "Back")));
     }
   }]);
