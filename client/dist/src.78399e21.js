@@ -30127,10 +30127,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       return _react.default.createElement("div", {
         className: "main-view"
       }, movies.map(function (movie) {
-        return _react.default.createElement("div", {
-          className: "movie-card",
-          key: movie._id
-        }, movie.Title);
+        return _react.default.createElement(MovieCard, {
+          key: movie._id,
+          movie: movie
+        });
       }));
     }
   }]);
@@ -30298,7 +30298,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63235" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63248" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
