@@ -30167,9 +30167,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          _onClick = _this$props.onClick;
+      var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement("div", {
         className: "movie-view"
@@ -30201,9 +30199,19 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
       }, movie.Director.Name)), _react.default.createElement("div", null, _react.default.createElement(Button, {
-        onClick: function onClick() {
-          return _onClick();
-        }
+        onClick: function (_onClick) {
+          function onClick() {
+            return _onClick.apply(this, arguments);
+          }
+
+          onClick.toString = function () {
+            return _onClick.toString();
+          };
+
+          return onClick;
+        }(function () {
+          return onClick();
+        })
       }, "Back")));
     }
   }]);
