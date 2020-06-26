@@ -30099,8 +30099,13 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
       // This is given to the <MovieCard/> component by the outer world
       // which, in this case, is `MainView`, as `MainView` is what’s
       // connected to your database via the movies endpoint of your API
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          _onClick = _this$props.onClick;
       return _react.default.createElement("div", {
+        onClick: function onClick() {
+          return _onClick(movie);
+        },
         className: "movie-card"
       }, movie.Title);
     }
