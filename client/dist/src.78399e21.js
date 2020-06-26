@@ -30198,7 +30198,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)));
+      }, movie.Director.Name)), _react.default.createElement("div", null, _react.default.createElement("button", {
+        className: "back-button",
+        onClick: function onClick() {
+          return previous(movie);
+        }
+      }, "Back")));
     }
   }]);
 
