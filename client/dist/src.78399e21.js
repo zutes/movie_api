@@ -31765,8 +31765,8 @@ MovieCard.propTypes = {
     Title: _propTypes.default.string.isRequired,
     Description: _propTypes.default.string.isRequired //ImagePath: PropTypes.string.isRequired
 
-  }).isRequired,
-  onClick: _propTypes.default.func.isRequired
+  }).isRequired //onClick: PropTypes.func.isRequired
+
 };
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
 "use strict";
@@ -32188,7 +32188,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61755" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61887" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
