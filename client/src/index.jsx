@@ -2,6 +2,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// The two most important lines in the code above are import { MainView } from './main-view/main-view'; and return <MainView/>;.
+// These commands render MainView from within your “index.jsx” file
+
 import { MainView } from './components/main-view/main-view';
 
 // Import statement to indicate that we need to bundle `./index.scss`
