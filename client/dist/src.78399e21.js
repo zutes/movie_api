@@ -30082,6 +30082,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+// The component is exported using the export class MovieCard syntax.
+// This means you'll be able to import it from another place (in this case, your MainView component).
 var MovieCard = /*#__PURE__*/function (_React$Component) {
   _inherits(MovieCard, _React$Component);
 
@@ -30096,8 +30098,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieCard, [{
     key: "render",
     value: function render() {
-      // This is given to the <MovieCard/> component by the outer world
-      // which, in this case, is `MainView`, as `MainView` is what’s
+      // This is given to the <MovieCard/> component by the outer world which, in this case, is `MainView`, as `MainView` is what’s
       // connected to your database via the movies endpoint of your API
       var _this$props = this.props,
           movie = _this$props.movie,
@@ -30265,8 +30266,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, MainView);
 
-    // Call the superclass constructor
-    // so React can initialize it
+    // Call the superclass constructor so React can initialize it
     _this = _super.call(this); // Initialize the state to an empty object so we can destructure it later
 
     _this.state = {
@@ -30274,9 +30274,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       selectedMovie: null
     };
     return _this;
-  } // This overrides the render() method of the superclass
-  // No need to call super() though, as it does nothing by default
-  // One of the "hooks" available in a React Component
+  } // One of the "hooks" available in a React Component
 
 
   _createClass(MainView, [{
@@ -30284,8 +30282,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/movies').then(function (response) {
+      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/movies') //Axios instructed to GET the movies from my endpoint
+      .then(function (response) {
         // Assign the result to the state
+        // The asynchronous setState() method has been used to tell React that your component's state has changed
         _this2.setState({
           movies: response.data
         });
@@ -30305,13 +30305,16 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      // If the state isn't initialized, this will throw on runtime before the data is initially loaded
       var _this$state = this.state,
           movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie; // Before the movies have been loaded
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
-      });
+      }); // The curly brace syntax inside of <div className="main-view"> leverages the ability of JSX to run some JS code "within" HTML elements.
+      // Here, you loop over the movies array and return a div for each movie within the array.
+
       return _react.default.createElement("div", {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
@@ -30496,7 +30499,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64714" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64104" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
