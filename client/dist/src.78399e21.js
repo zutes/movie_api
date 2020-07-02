@@ -31763,8 +31763,8 @@ exports.MovieCard = MovieCard;
 MovieCard.propTypes = {
   movie: _propTypes.default.shape({
     Title: _propTypes.default.string.isRequired,
-    Description: _propTypes.default.string.isRequired,
-    ImagePath: _propTypes.default.string.isRequired
+    Description: _propTypes.default.string.isRequired //ImagePath: PropTypes.string.isRequired
+
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
@@ -32188,7 +32188,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60671" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61755" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
