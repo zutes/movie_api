@@ -32012,21 +32012,19 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       movies: null,
       selectedMovie: null,
-      user: null
+      user: null,
+      register: false
     };
     return _this;
-  } // One of the "hooks" available in a React Component
-
+  }
 
   _createClass(MainView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
-      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/movies') //Axios instructed to GET the movies from my endpoint
-      .then(function (response) {
+      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/movies').then(function (response) {
         // Assign the result to the state
-        // The asynchronous setState() method has been used to tell React that your component's state has changed
         _this2.setState({
           movies: response.data
         });
@@ -32038,14 +32036,40 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     key: "onMovieClick",
     value: function onMovieClick(movie) {
       this.setState({
-        selectedMovie: movie
+        selectedMovie: movie // userAction: null,
+
       });
     }
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(user) {
       this.setState({
-        user: user
+        user: user // userAction: null,
+
+      });
+    } //button to return to all movies view
+
+  }, {
+    key: "onButtonClick",
+    value: function onButtonClick() {
+      this.setState({
+        selectedMovie: null
+      });
+    } //testing
+
+  }, {
+    key: "onSignedIn",
+    value: function onSignedIn(user) {
+      this.setState({
+        user: user,
+        register: false
+      });
+    }
+  }, {
+    key: "register",
+    value: function register() {
+      this.setState({
+        register: true
       });
     }
   }, {
@@ -32053,59 +32077,52 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      // If the state isn't initialized, this will throw on runtime before the data is initially loaded
       var _this$state = this.state,
           movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie,
           user = _this$state.user,
           register = _this$state.register;
-      if (!user) return _react.default.createElement(_loginView.LoginView, {
+      if (!user && register === false) return _react.default.createElement(_loginView.LoginView, {
+        onClick: function onClick() {
+          return _this3.onRegistered();
+        },
         onLoggedIn: function onLoggedIn(user) {
           return _this3.onLoggedIn(user);
         }
-      });else return _react.default.createElement(_registrationView.RegistrationView, null); // Before the movies have been loaded
+      });
+      if (register) return _react.default.createElement(_registrationView.RegistrationView, {
+        onClick: function onClick() {
+          return _this3.alreadyMember();
+        },
+        onSignedIn: function onSignedIn(user) {
+          return _this3.onSignedIn(user);
+        }
+      }); //before the movies has been loaded
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
-      /* The curly brace syntax inside of <div className="main-view"> leverages the ability of JSX to run some JS code "within" HTML elements.
-      // Here, you loop over the movies array and return a div for each movie within the array.
-      return (
-        <div className="main-view">
-          {selectedMovie ? (
-            <MovieView
-              movie={selectedMovie}
-              onClick={() => this.onMovieClick(null)}
-            />
-          ) : (
-            movies.map((movie) => (
-              <MovieCard
-                key={movie._id}
-                movie={movie}
-                onClick={(movie) => this.onMovieClick(movie)}
-              />
-            ))
-          )}
-        </div>
-      );
-      }
-      }
-      */
-      //Updated return
-
       return _react.default.createElement("div", {
         className: "main-view"
-      }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
-        movie: selectedMovie
+      }, _react.default.createElement(Container, null, _react.default.createElement(Row, null, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
+        movie: selectedMovie,
+        onClick: function onClick() {
+          return _this3.onButtonClick();
+        }
       }) : movies.map(function (movie) {
-        return _react.default.createElement(_movieCard.MovieCard, {
+        return _react.default.createElement(Col, {
+          key: movie._id,
+          xs: 12,
+          sm: 6,
+          md: 4
+        }, _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
           movie: movie,
           onClick: function onClick(movie) {
             return _this3.onMovieClick(movie);
           }
-        });
-      }));
+        }));
+      }))));
     }
   }]);
 
@@ -32207,7 +32224,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65334" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53271" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -16,17 +16,17 @@ export class MainView extends React.Component {
     this.state = {
       movies: null,
       selectedMovie: null,
-      user: null
+      user: null,
+      
+      register: false,
     };
   }
 
-  // One of the "hooks" available in a React Component
   componentDidMount() {
     axios
-      .get('https://shielded-oasis-17182.herokuapp.com/movies') //Axios instructed to GET the movies from my endpoint
+      .get('https://shielded-oasis-17182.herokuapp.com/movies')
       .then((response) => {
         // Assign the result to the state
-        // The asynchronous setState() method has been used to tell React that your component's state has changed
         this.setState({
           movies: response.data,
         });
@@ -38,60 +38,81 @@ export class MainView extends React.Component {
 
   onMovieClick(movie) {
     this.setState({
-      selectedMovie: movie
+      selectedMovie: movie,
+      // userAction: null,
     });
   }
 
   onLoggedIn(user) {
     this.setState({
-      user
+      user,
+      // userAction: null,
     });
   }
 
+  //button to return to all movies view
+  onButtonClick() {
+    this.setState({
+      selectedMovie: null,
+    });
+  }
+
+  //testing
+  onSignedIn(user) {
+    this.setState({
+      user: user,
+      register: false,
+    });
+  }
+
+  register() {
+    this.setState({ register: true });
+  }
+
   render() {
-    // If the state isn't initialized, this will throw on runtime before the data is initially loaded
     const { movies, selectedMovie, user, register } = this.state;
 
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-    else return <RegistrationView/>;
-    
-    // Before the movies have been loaded
-    if (!movies) return <div className="main-view"/>;
+    if (!user && register === false)
+      return (
+        <LoginView
+          onClick={() => this.onRegistered()}
+          onLoggedIn={(user) => this.onLoggedIn(user)}
+        />
+      );
 
-    /* The curly brace syntax inside of <div className="main-view"> leverages the ability of JSX to run some JS code "within" HTML elements.
-    // Here, you loop over the movies array and return a div for each movie within the array.
+    if (register)
+      return (
+        <RegistrationView
+          onClick={() => this.alreadyMember()}
+          onSignedIn={(user) => this.onSignedIn(user)}
+        />
+      );
+
+    //before the movies has been loaded
+    if (!movies) return <div className="main-view" />;
     return (
       <div className="main-view">
-        {selectedMovie ? (
-          <MovieView
-            movie={selectedMovie}
-            onClick={() => this.onMovieClick(null)}
-          />
-        ) : (
-          movies.map((movie) => (
-            <MovieCard
-              key={movie._id}
-              movie={movie}
-              onClick={(movie) => this.onMovieClick(movie)}
-            />
-          ))
-        )}
+        <Container>
+          <Row>
+            {selectedMovie ? (
+              <MovieView
+                movie={selectedMovie}
+                onClick={() => this.onButtonClick()}
+              />
+            ) : (
+              movies.map((movie) => (
+                <Col key={movie._id} xs={12} sm={6} md={4}>
+                  <MovieCard
+                    key={movie._id}
+                    movie={movie}
+                    onClick={(movie) => this.onMovieClick(movie)}
+                  />
+                </Col>
+              ))
+            )}
+          </Row>
+        </Container>
       </div>
     );
   }
-}
-*/
-
-//Updated return
-return (
-  <div className="main-view">
-   {selectedMovie
-      ? <MovieView movie={selectedMovie}/>
-      : movies.map(movie => (
-        <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)}/>
-      ))
-   }
-  </div>
- );
-}
 }
