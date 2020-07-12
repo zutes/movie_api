@@ -32741,8 +32741,6 @@ exports.RegistrationView = RegistrationView;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _axios = _interopRequireDefault(require("axios"));
-
 require("./registration-view.scss");
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
@@ -32771,40 +32769,44 @@ function RegistrationView(props) {
   var _useState = (0, _react.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
       username = _useState2[0],
-      createUsername = _useState2[1];
+      setUsername = _useState2[1];
 
   var _useState3 = (0, _react.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
       password = _useState4[0],
-      createPassword = _useState4[1];
+      setPassword = _useState4[1];
 
   var _useState5 = (0, _react.useState)(""),
       _useState6 = _slicedToArray(_useState5, 2),
       email = _useState6[0],
-      createEmail = _useState6[1];
+      setEmail = _useState6[1];
 
   var _useState7 = (0, _react.useState)(""),
       _useState8 = _slicedToArray(_useState7, 2),
       birthday = _useState8[0],
-      createBirthday = _useState8[1];
-
-  var handleRegistration = function handleRegistration(e) {
+      setBirthday = _useState8[1];
+  /*
+  const handleRegistration = (e) => {
     e.preventDefault();
-
-    _axios.default.post("hhttps://shielded-oasis-17182.herokuapp.com/users", {
+  
+    axios.post("hhttps://shielded-oasis-17182.herokuapp.com/users", {
       Username: username,
       Password: password,
       Email: email,
       Birthday: birthday
-    }).then(function (response) {
-      var data = response.data;
-      alert('Your account has been created.');
-      console.log(data);
-      window.open("/", "_self");
-    }).catch(function (e) {
-      console.log("Something went wrong.");
-    });
+    })
+      .then((response) => {
+        const data = response.data;
+        alert('Your account has been created.');
+        console.log(data);
+        window.open("/", "_self");
+      })
+      .catch((e) => {
+        console.log("Something went wrong.");
+      });
   };
+  */
+
 
   return _react.default.createElement(_Form.default, {
     className: "registration-form"
@@ -32854,11 +32856,10 @@ function RegistrationView(props) {
     className: "text-muted"
   }, "Please provide your birthday in this format (dd/mm/yyyy).")), _react.default.createElement(_Button.default, {
     variant: "primary",
-    type: "submit",
-    onClick: handleRegistration
+    type: "submit"
   }, "Register"));
-}
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
+} //<Button variant="primary" type="submit" onClick={handleRegistration}>Register</Button>
+},{"react":"../node_modules/react/index.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34647,7 +34648,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61450" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63651" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
