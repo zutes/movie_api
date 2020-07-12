@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 
 import "./registration-view.scss";
 
@@ -7,11 +7,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 export function RegistrationView(props) {
-  const [username, createUsername] = useState("");
-  const [password, createPassword] = useState("");
-  const [email, createEmail] = useState("");
-  const [birthday, createBirthday] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
 
+  /*
   const handleRegistration = (e) => {
     e.preventDefault();
 
@@ -32,7 +33,8 @@ export function RegistrationView(props) {
         console.log("Something went wrong.");
       });
   };
-
+*/
+  
   return (
 
     <Form className="registration-form">
@@ -68,8 +70,13 @@ export function RegistrationView(props) {
           Please provide your birthday in this format (dd/mm/yyyy).
         </Form.Text>
       </Form.Group>
-
-      <Button variant="primary" type="submit" onClick={handleRegistration}>Register</Button>
+      <Button variant="primary" type="submit" >
+          Register
+        </Button>
+      
+    
     </Form>
   );
-}
+  }
+
+  //<Button variant="primary" type="submit" onClick={handleRegistration}>Register</Button>
