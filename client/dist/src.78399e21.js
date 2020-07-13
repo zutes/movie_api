@@ -34503,9 +34503,31 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "onLoggedIn",
-    value: function onLoggedIn(user) {
+    value: function onLoggedIn(authData) {
+      console.log(authData);
       this.setState({
-        user: user
+        user: authData.user.Username
+      });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      this.getMovies(authData.token);
+    }
+  }, {
+    key: "getMovies",
+    value: function getMovies(token) {
+      var _this3 = this;
+
+      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/movies', {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        // Assign the result to the state
+        _this3.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
       });
     }
   }, {
@@ -34518,7 +34540,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$state = this.state,
           movies = _this$state.movies,
@@ -34527,10 +34549,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           register = _this$state.register;
       if (!user && register === false) return _react.default.createElement(_loginView.LoginView, {
         onSignedIn: function onSignedIn(user) {
-          return _this3.onLoggedIn(user);
+          return _this4.onLoggedIn(user);
         },
         notRegistered: function notRegistered(register) {
-          return _this3.onRegister(register);
+          return _this4.onRegister(register);
         }
       });
       if (register) return _react.default.createElement(_registrationView.RegistrationView, null); // Before the movies have been loaded
@@ -34543,7 +34565,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
         movie: selectedMovie,
         onClick: function onClick() {
-          return _this3.onMovieClick();
+          return _this4.onMovieClick();
         }
       }) : movies.map(function (movie) {
         return _react.default.createElement(_Col.default, {
@@ -34552,7 +34574,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           key: movie._id,
           movie: movie,
           onClick: function onClick(movie) {
-            return _this3.onMovieClick(movie);
+            return _this4.onMovieClick(movie);
           }
         }));
       }))));
@@ -34657,7 +34679,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56217" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56854" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

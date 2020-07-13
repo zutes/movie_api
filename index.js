@@ -41,18 +41,13 @@ mongoose.connect(process.env.CONNECTION_URI, {
 const cors = require("cors");
 
 //CORS sites granted access
-/*
 let allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:1234",
   "http://shielded-oasis-17182.herokuapp.com/",
   "https://shielded-oasis-17182.herokuapp.com/",
 ];
-*/
 
-app.use(cors())
-
-/*
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -69,8 +64,6 @@ app.use(
   })
 );
 
-*/
-
 app.get("/", (req, res) => {
   res.send("Welcome to the myFlix app!");
   console.log("Welcome to the myFlix app!");
@@ -83,7 +76,7 @@ app.get("/documentation.html", (req, res) => {
 //Gets a list of all movies
 app.get(
   "/movies",
-  
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => {
