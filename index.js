@@ -52,6 +52,10 @@ let allowedOrigins = [
 
 let allowedOrigins = ["*"];
 
+
+app.use(cors());
+
+/*
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -67,6 +71,7 @@ app.use(
     },
   })
 );
+*/
 
 app.get("/", (req, res) => {
   res.send("Welcome to the myFlix app!");
