@@ -41,12 +41,16 @@ mongoose.connect(process.env.CONNECTION_URI, {
 const cors = require("cors");
 
 //CORS sites granted access
+/*
 let allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:1234",
   "http://shielded-oasis-17182.herokuapp.com/",
   "https://shielded-oasis-17182.herokuapp.com/",
 ];
+*/
+
+let allowedOrigins = ["*"];
 
 app.use(
   cors({
