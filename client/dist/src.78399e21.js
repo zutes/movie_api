@@ -32685,18 +32685,17 @@ function LoginView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    props.onLoggedIn(username); // /* Send a request to the server for authentication */
-    // axios.post('https://shielded-oasis-17182.herokuapp.com/login', {
-    //   Username: username,
-    //   Password: password
-    // })
-    // .then(response => {
-    //   const data = response.data;
-    //   props.onLoggedIn(data);
-    // })
-    // .catch(e => {
-    //   console.log('no such user')
-    // });
+    /* Send a request to the server for authentication */
+
+    _axios.default.post('https://shielded-oasis-17182.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    }).then(function (response) {
+      var data = response.data;
+      props.onLoggedIn(data);
+    }).catch(function (e) {
+      console.log('no such user');
+    });
   };
 
   var notRegistered = function notRegistered(e) {
@@ -33126,8 +33125,8 @@ exports.MovieCard = MovieCard;
 MovieCard.propTypes = {
   movie: _propTypes.default.shape({
     Title: _propTypes.default.string.isRequired,
-    Description: _propTypes.default.string.isRequired //ImagePath: PropTypes.string.isRequired
-
+    Description: _propTypes.default.string.isRequired,
+    ImagePath: _propTypes.default.string.isRequired
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
@@ -34496,24 +34495,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "getMovies",
-    value: function getMovies(token) {
-      var _this3 = this;
-
-      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/movies', {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function (response) {
-        // Assign the result to the state
-        _this3.setState({
-          movies: response.data
-        });
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
-  }, {
     key: "onMovieClick",
     value: function onMovieClick(movie) {
       this.setState({
@@ -34522,14 +34503,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "onLoggedIn",
-    value: function onLoggedIn(authData) {
-      console.log(authData);
+    value: function onLoggedIn(user) {
       this.setState({
-        user: authData.user.Username
+        user: user
       });
-      localStorage.setItem('token', authData.token);
-      localStorage.setItem('user', authData.user.Username);
-      this.getMovies(authData.token);
     }
   }, {
     key: "onRegister",
@@ -34541,7 +34518,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var _this$state = this.state,
           movies = _this$state.movies,
@@ -34549,11 +34526,11 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           user = _this$state.user,
           register = _this$state.register;
       if (!user && register === false) return _react.default.createElement(_loginView.LoginView, {
-        onLoggedIn: function onLoggedIn(user) {
-          return _this4.onLoggedIn(user);
+        onSignedIn: function onSignedIn(user) {
+          return _this3.onLoggedIn(user);
         },
         notRegistered: function notRegistered(register) {
-          return _this4.onRegister(register);
+          return _this3.onRegister(register);
         }
       });
       if (register) return _react.default.createElement(_registrationView.RegistrationView, null); // Before the movies have been loaded
@@ -34566,7 +34543,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
         movie: selectedMovie,
         onClick: function onClick() {
-          return _this4.onMovieClick();
+          return _this3.onMovieClick();
         }
       }) : movies.map(function (movie) {
         return _react.default.createElement(_Col.default, {
@@ -34575,7 +34552,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           key: movie._id,
           movie: movie,
           onClick: function onClick(movie) {
-            return _this4.onMovieClick(movie);
+            return _this3.onMovieClick(movie);
           }
         }));
       }))));
@@ -34680,7 +34657,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50806" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51344" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
