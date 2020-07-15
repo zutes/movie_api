@@ -50,7 +50,7 @@ let allowedOrigins = [
 ];
 */
 
-app.use(cors())
+app.use(cors());
 
 let auth = require("./auth")(app);
 app.get("/", (req, res) => {
