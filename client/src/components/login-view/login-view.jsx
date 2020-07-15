@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Container from 'react-bootstrap/Container';
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
-import "./login-view.scss";
+import './login-view.scss';
 
 export function LoginView(props) {
   const [username, setUsername] = useState('');
@@ -17,13 +17,13 @@ export function LoginView(props) {
       Username: username,
       Password: password
     })
-    .then(response => {
-      const data = response.data;
-      props.onLoggedIn(data);
-    })
-    .catch(e => {
-      console.log('no such user')
-    });
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log('no such user')
+      });
   };
 
   const notRegistered = (e) => {
