@@ -12,19 +12,18 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-      props.onSignedIn(username);
-    // /* Send a request to the server for authentication */
-    // axios.post('https://shielded-oasis-17182.herokuapp.com/login', {
-    //   Username: username,
-    //   Password: password
-    // })
-    // .then(response => {
-    //   const data = response.data;
-    //   props.onLoggedIn(data);
-    // })
-    // .catch(e => {
-    //   console.log('no such user')
-    // });
+    /* Send a request to the server for authentication */
+    axios.post('https://shielded-oasis-17182.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    })
+    .then(response => {
+      const data = response.data;
+      props.onLoggedIn(data);
+    })
+    .catch(e => {
+      console.log('no such user')
+    });
   };
 
   const notRegistered = (e) => {
