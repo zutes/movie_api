@@ -34526,7 +34526,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           user = _this$state.user,
           register = _this$state.register;
       if (!user && register === false) return _react.default.createElement(_loginView.LoginView, {
-        onSignedIn: function onSignedIn(user) {
+        onLoggedIn: function onLoggedIn(user) {
           return _this3.onLoggedIn(user);
         },
         notRegistered: function notRegistered(register) {
@@ -34657,7 +34657,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51344" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52149" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
