@@ -68,7 +68,7 @@ app.use(
   })
 );
 
-let auth = require('/auth')(app);
+let auth = require('./auth')(app);
 
 app.get('/', (req, res) => {
   res.send('Welcome to the myFlix app!');
