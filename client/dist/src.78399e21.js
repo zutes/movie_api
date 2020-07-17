@@ -32794,28 +32794,23 @@ function RegistrationView(props) {
       _useState8 = _slicedToArray(_useState7, 2),
       birthday = _useState8[0],
       setBirthday = _useState8[1];
-  /*
-  const handleRegistration = (e) => {
+
+  var handleRegistration = function handleRegistration(e) {
     e.preventDefault();
-  
     axios.post("hhttps://shielded-oasis-17182.herokuapp.com/users", {
       Username: username,
       Password: password,
       Email: email,
       Birthday: birthday
-    })
-      .then((response) => {
-        const data = response.data;
-        alert('Your account has been created.');
-        console.log(data);
-        window.open("/", "_self");
-      })
-      .catch((e) => {
-        console.log("Something went wrong.");
-      });
+    }).then(function (response) {
+      var data = response.data;
+      alert('Your account has been created.');
+      console.log(data);
+      window.open("/", "_self");
+    }).catch(function (e) {
+      console.log("Something went wrong.");
+    });
   };
-  */
-
 
   return _react.default.createElement(_Form.default, {
     className: "registration-form"
@@ -34657,7 +34652,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62629" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64196" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

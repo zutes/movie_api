@@ -277,10 +277,12 @@ app.delete(
   }
 );
 
+/*
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
+*/
 
 // listen for requests
 const port = process.env.PORT || 8080;
