@@ -12,7 +12,7 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  /*
+  
   const handleRegistration = (e) => {
     e.preventDefault();
 
@@ -33,7 +33,7 @@ export function RegistrationView(props) {
         console.log("Something went wrong.");
       });
   };
-*/
+
   
   return (
 
