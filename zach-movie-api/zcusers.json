@@ -1,4 +1,0 @@
-{"_id":{"$oid":"5ed7f9f7be627c1edbd1033a"},"Username":"lisasimpson","Password":"lisas123","Email":"lisas1@simpsons.com","Birthday":{"$date":"1987-05-09T00:00:00.000Z"},"FavoriteMovies":[12.0]}
-{"_id":{"$oid":"5ed7fc4bbe627c1edbd1033b"},"Username":"mrburns","Password":"mburns123","Email":"mburns@simpsons.com","Birthday":{"$date":"1886-09-15T00:00:00.000Z"},"FavoriteMovies":[3.0,4.0,9.0]}
-{"_id":{"$oid":"5ed7fdc5be627c1edbd1033c"},"Username":"mprince","Password":"mprince123","Email":"mprince@simpsons.com","Birthday":{"$date":"1980-08-02T00:00:00.000Z"},"FavoriteMovies":[1.0,12.0,14.0]}
-{"_id":{"$oid":"5ed80017be627c1edbd1033e"},"Username":"tmcclure","Password":"tmc123","Email":"tmcclure@simpsons.com","Birthday":{"$date":"1948-09-04T00:00:00.000Z"},"FavoriteMovies":[2.0,3.0]}
