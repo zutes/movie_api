@@ -42,11 +42,7 @@ const cors = require("cors");
 
 //CORS sites granted access
 let allowedOrigins = [
-  'http://localhost:1234',
-  'http://localhost:8080',
-  'http://testsite.com',
-  'http://shielded-oasis-17182.herokuapp.com/',
-  'https://shielded-oasis-17182.herokuapp.com/',
+  
   '*',
 ];
 
