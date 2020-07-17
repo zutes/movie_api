@@ -12,28 +12,27 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  /*
+  
   const handleRegistration = (e) => {
     e.preventDefault();
 
 
     axios.post("hhttps://shielded-oasis-17182.herokuapp.com/users", {
       Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
-    })
-      .then((response) => {
-        const data = response.data;
-        alert('Your account has been created.');
-        console.log(data);
-        window.open("/", "_self");
-      })
-      .catch((e) => {
-        console.log("Something went wrong.");
-      });
-  };
-*/
+  Password: password,
+  Email: email,
+  Birthday: birthday
+})
+.then(response => {
+  const data = response.data;
+  console.log(data);
+  window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
+})
+.catch(e => {
+  console.log('error registering the user')
+});
+  }
+
   
   return (
 
