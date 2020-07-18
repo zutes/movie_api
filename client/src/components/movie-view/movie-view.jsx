@@ -47,6 +47,13 @@ export class MovieView extends React.Component {
               <Button onClick={() => onClick()} className="back-button" type="button" variant="info">Back</Button>
             </ListGroup.Item>
           </ListGroup>
+          <Link to={`/directors/${movie.Director.Name}`}>
+            <Button variant="link">Director</Button>
+          </Link>
+
+          <Link to={`/genres/${movie.Genre.Name}`}>
+            <Button variant="link">Genre</Button>
+          </Link>
         </div>
       </Col>
     );
