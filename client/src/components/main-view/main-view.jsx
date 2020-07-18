@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -19,10 +21,8 @@ export class MainView extends React.Component {
     super();
 
     this.state = {
-      movies: null,
-      selectedMovie: null,
+      movies: [],
       user: null,
-      register: false
     };
   }
 
@@ -38,11 +38,6 @@ export class MainView extends React.Component {
     }
   }
 
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie
-    });
-  }
 
 
   getMovies(token) {
@@ -76,8 +71,9 @@ export class MainView extends React.Component {
     localStorage.removeItem('user');
     this.setState({
       user: null,
-    });}
-  
+    });
+  }
+
   onRegister(register) {
     this.setState({
       register: register
@@ -86,6 +82,31 @@ export class MainView extends React.Component {
 
 
 
+  render() {
+    const { movies, user } = this.state;
+
+
+
+    if (!movies) return <div className="main-view" />;
+
+    return (
+      <Router>
+        <div className="main-view">
+          <Route exact path="/" render={() => {
+            if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+            return movies.map(m => <MovieCard key={m._id} movie={m} />)
+          }
+          } />
+          <Route path="/register" render={() => <RegistrationView />} />
+          {/* you keep the rest routes here */}
+          <Route path="/movies/:movieId" render={({ match }) => <MovieView movie={movies.find(m => m._id === match.params.movieId)} />} />
+        </div>
+      </Router>
+    );
+  }
+}
+
+/*
   render() {
     const { movies, selectedMovie, user, register } = this.state;
 
@@ -118,3 +139,4 @@ export class MainView extends React.Component {
     );
   }
 }
+*/
