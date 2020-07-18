@@ -4,6 +4,7 @@ import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Button from "react-bootstrap/Button";
 
 import "./main-view.scss";
 
@@ -75,11 +76,8 @@ export class MainView extends React.Component {
     localStorage.removeItem('user');
     this.setState({
       user: null,
-    });
-    alert("Goodbye!");  // Will remove this later, same for the registration one
-    window.open('/client', '_self');
-  }
-
+    });}
+  
   onRegister(register) {
     this.setState({
       register: register
@@ -112,6 +110,9 @@ export class MainView extends React.Component {
               ))
               )}
           </Row>
+          <Button type="button" className="logout" variant="info" onClick={() => this.onLoggedOut()}>
+          <b>Log Out</b>
+        </Button>
         </Container>
       </div>
     );
