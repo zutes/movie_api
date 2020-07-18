@@ -12,7 +12,7 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  
+
   const handleRegistration = (e) => {
     e.preventDefault();
 
@@ -23,18 +23,17 @@ export function RegistrationView(props) {
       Email: email,
       Birthday: birthday
     })
-      .then((response) => {
+      .then(response => {
         const data = response.data;
-        alert('Your account has been created.');
         console.log(data);
-        window.open("/", "_self");
+        window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
       })
-      .catch((e) => {
-        console.log("Something went wrong.");
+      .catch(e => {
+        console.log('error registering the user')
       });
   };
 
-  
+
   return (
 
     <Form className="registration-form">
@@ -71,12 +70,10 @@ export function RegistrationView(props) {
         </Form.Text>
       </Form.Group>
       <Button variant="primary" type="submit" >
-          Register
+        Register
         </Button>
-      
-    
     </Form>
   );
-  }
+}
 
   //<Button variant="primary" type="submit" onClick={handleRegistration}>Register</Button>
