@@ -45,11 +45,32 @@ export class MainView extends React.Component {
     });
   }
 
-  onLoggedIn(user) {
+  
+getMovies(token) {
+  axios.get('https://shielded-oasis-17182.herokuapp.com/movies', {
+    headers: { Authorization: `Bearer ${token}`}
+  })
+  .then(response => {
+    // Assign the result to the state
     this.setState({
-      user
+      movies: response.data
     });
-  }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+onLoggedIn(authData) {
+  console.log(authData);
+  this.setState({
+    user: authData.user.Username
+  });
+
+  localStorage.setItem('token', authData.token);
+  localStorage.setItem('user', authData.user.Username);
+  this.getMovies(authData.token);
+}
 
   onRegister(register) {
     this.setState({
@@ -62,7 +83,7 @@ export class MainView extends React.Component {
   render() {
     const { movies, selectedMovie, user, register } = this.state;
 
-    if (!user && register === false) return <LoginView onSignedIn={user => this.onLoggedIn(user)}
+    if (!user && register === false) return <LoginView onLoggedIn={user => this.onLoggedIn(user)}
       notRegistered={(register) => this.onRegister(register)} />;
 
     if (register) return <RegistrationView />;
