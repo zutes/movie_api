@@ -20,11 +20,18 @@ export class MovieCard extends React.Component {
           <Link to={`/movies/${movie._id}`}>
             <Button variant="link">Open</Button>
           </Link>
+          <Link to={`/users`}>
+          <Button variant="link">
+            View Your Profile Here!
+          </Button>
+        </Link>
         </Card.Body>
       </Card>
     );
   }
 }
+
+
 
 MovieCard.propTypes = {
   movie: PropTypes.shape({

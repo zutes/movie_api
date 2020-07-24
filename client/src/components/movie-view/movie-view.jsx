@@ -6,6 +6,8 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image'
 
+import { Link } from 'react-router-dom';
+
 export class MovieView extends React.Component {
 
   constructor() {
@@ -43,22 +45,23 @@ export class MovieView extends React.Component {
               <span className="value">{movie.Director.Name}</span>
             </ListGroup.Item>
 
-            <ListGroup.Item>
-              <Button onClick={() => onClick()} className="back-button" type="button" variant="info">Back</Button>
-            </ListGroup.Item>
+            
           </ListGroup>
           <Link to={`/directors/${movie.Director.Name}`}>
-            <Button variant="link">Director</Button>
-          </Link>
+  <Button variant="link">Director</Button>
+</Link>
 
-          <Link to={`/genres/${movie.Genre.Name}`}>
-            <Button variant="link">Genre</Button>
-          </Link>
-        </div>
+<Link to={`/genres/${movie.Genre.Name}`}>
+  <Button variant="link">Genre</Button>
+</Link>
+<Link to={`/`}>
+                <Button variant="link">Back</Button>
+              </Link></div>
       </Col>
     );
   }
 }
+
 
 MovieView.propTypes = {
   movie: PropTypes.shape({

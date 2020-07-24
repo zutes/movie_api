@@ -3,6 +3,7 @@ import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Link } from 'react-router-dom';
 
 import "./login-view.scss";
 
@@ -26,10 +27,7 @@ export function LoginView(props) {
     });
   };
 
-  const notRegistered = (e) => {
-    e.preventDefault();
-    props.notRegistered(true);
-  };
+  
 
   return (
     <Container className="login-container">
@@ -47,10 +45,15 @@ export function LoginView(props) {
         </Form.Group>
 
         <Button variant="info" type="submit" onClick={handleSubmit}>Sign In</Button><br></br>
-        <button type="button" className="btn btn-link" onClick={notRegistered}>
-          Click here to create a new account!
-        </button>
+     
+        <Link to={`/register`}>
+          <Button variant="link" className="registerButton" type="submit">
+            New Users Register Here!
+          </Button>
+        </Link>
+        
       </Form>
     </Container>
-  );
-}
+    );
+  }
+  

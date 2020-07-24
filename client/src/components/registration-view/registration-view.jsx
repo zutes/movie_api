@@ -17,7 +17,8 @@ export function RegistrationView(props) {
     e.preventDefault();
 
 
-    axios.post("hhttps://shielded-oasis-17182.herokuapp.com/users", {
+
+    axios.post("https://shielded-oasis-17182.herokuapp.com/users", {
       Username: username,
       Password: password,
       Email: email,
@@ -33,7 +34,7 @@ export function RegistrationView(props) {
       });
   };
 
-
+  
   return (
 
     <Form className="registration-form">
