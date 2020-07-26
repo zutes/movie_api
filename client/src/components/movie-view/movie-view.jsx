@@ -62,7 +62,7 @@ export class MovieView extends React.Component {
   }
 }
 
-
+/*
 MovieView.propTypes = {
   movie: PropTypes.shape({
     //ImagePath: PropTypes.string.isRequired,
@@ -73,3 +73,4 @@ MovieView.propTypes = {
   }).isRequired,
   onClick: PropTypes.func.isRequired
 };
+*/

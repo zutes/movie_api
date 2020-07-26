@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
@@ -7,7 +7,6 @@ import Card from 'react-bootstrap/Card';
 export class ProfileView extends React.Component {
   constructor() {
     super();
-
     this.state = {
       username: null,
       password: null,
@@ -18,24 +17,24 @@ export class ProfileView extends React.Component {
 
   componentDidMount() {
     //authentication
-    const accessToken = localStorage.getItem('token');
-    this.getUser(accessToken);
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.getUser(accessToken);
+    }
   }
 
   getUser(token) {
-    const username = localStorage.getItem('user');
-
-
-    axios.get(`https://shielded-oasis-17182.herokuapp.com/users/${username}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    axios.get('https://shielded-oasis-17182.herokuapp.com/users/:Username', {
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then(res => {
+      .then(response => {
+        console.log(response);
         this.setState({
-          Username: res.data.Username,
-          Password: res.data.Password,
-          Email: res.data.Email,
-          Birthday: res.data.Birthday,
-          
+          user: response.data,
+          Username: response.data.username,
+          Password: response.data.password,
+          Email: response.data.email,
+          Birthday: response.data.birthday,
         });
       })
       .catch(function (error) {
@@ -44,7 +43,7 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { Username, Passoword, Email, Birthday } = this.state;
+    const { username, password, email, birthday } = this.state;
 
     return (
       <div>
@@ -53,10 +52,10 @@ export class ProfileView extends React.Component {
           <br />
           <Card>
             <Card.Body>
-              <Card.Text>Username: {this.state.Username}</Card.Text>
-              <Card.Text>Password: {this.state.Password}</Card.Text>
-              <Card.Text>Email: {this.state.Email}</Card.Text>
-              <Card.Text>Birthday: {this.state.Birthday}</Card.Text>
+              <Card.Text>Username: {username}</Card.Text>
+              <Card.Text>Password: {password}</Card.Text>
+              <Card.Text>Email: {email}</Card.Text>
+              <Card.Text>Birthday: {birthday}</Card.Text>
               <br />
               <br />
               <Link to={`/`}>Back</Link>
