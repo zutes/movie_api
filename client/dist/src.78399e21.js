@@ -49381,7 +49381,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProfileView = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -49392,10 +49392,6 @@ var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -49431,10 +49427,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this);
     _this.state = {
-      username: null,
-      password: null,
-      email: null,
-      birthday: null
+      isLoading: false,
+      userData: null
     };
     return _this;
   }
@@ -49442,7 +49436,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   _createClass(ProfileView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      //authentication
       var accessToken = localStorage.getItem('token');
 
       if (accessToken !== null) {
@@ -49454,7 +49447,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function getUser(token) {
       var _this2 = this;
 
-      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/users/:Username', {
+      _axios.default.get("https://shielded-oasis-17182.herokuapp.com/users/:Username", {
+        isLoading: true,
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -49462,11 +49456,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         console.log(response);
 
         _this2.setState({
-          user: response.data,
-          Username: response.data.username,
-          Password: response.data.password,
-          Email: response.data.email,
-          Birthday: response.data.birthday
+          userData: response.data,
+          isLoading: false
         });
       }).catch(function (error) {
         console.log(error);
@@ -49480,7 +49471,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           password = _this$state.password,
           email = _this$state.email,
           birthday = _this$state.birthday;
-      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", username), _react.default.createElement(_Card.default.Text, null, "Password: ", password), _react.default.createElement(_Card.default.Text, null, "Email: ", email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", birthday), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+      if (isLoading) return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.username), _react.default.createElement(_Card.default.Text, null, "Password: ", this.state.password), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", this.state.birthday), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, "Back")))));
     }
@@ -49840,7 +49831,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50921" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55235" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
