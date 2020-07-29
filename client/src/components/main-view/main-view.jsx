@@ -31,8 +31,8 @@ export class MainView extends React.Component {
   }
 
   getMovies(token) {
-    axios.get('https://shielded-oasis-17182.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}` }
+    axios.get(`https://shielded-oasis-17182.herokuapp.com/movies`, {
+      headers: { Authorization: `Bearer ${token}` } //By passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
     })
       .then(response => {
         // Assign the result to the state
@@ -45,6 +45,10 @@ export class MainView extends React.Component {
       });
   }
 
+  /*In the code below, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY').
+  If the access token is present, it means the user is already logged in and you can call the getMovies method, which makes a GET request to the movies endpoint.
+  */
+  
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
@@ -58,12 +62,12 @@ export class MainView extends React.Component {
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user.Username
+      user: authData.user.Username //THe user's Username has been saved in the user state
     });
 
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('user', authData.user.Username);
-    this.getMovies(authData.token);
+    localStorage.setItem('token', authData.token);  //The auth information received from the handleSubmit method—the token and the user—has been saved in localStorage
+    localStorage.setItem('user', authData.user.Username); //localStorage has a setItem method that accepts two arguments: a key and a value. In this example, the token and username have been saved.
+    this.getMovies(authData.token);  //this.getMovies(authData) is called and will get the movies from your API once the user is logged in
   }
 
   onLoggedOut() {
@@ -72,6 +76,7 @@ export class MainView extends React.Component {
     this.setState({
       user: null,
     });
+    window.open('/', '_self');
   }
 
   onRegister(register) {
@@ -114,13 +119,14 @@ export class MainView extends React.Component {
           } />
           
 
-          
+          <Button variant="primary" type="submit" onClick={ () => this.onLoggedOut()}>Logout</Button>
           
 
         </div>
       </Router>
       
     );
+    
   }
 }
 

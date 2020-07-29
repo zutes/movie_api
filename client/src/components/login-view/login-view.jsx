@@ -12,15 +12,15 @@ export function LoginView(props) {
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    /* Send a request to the server for authentication */
+    e.preventDefault(); //This prevents default behavior of submitting a form
+    //Then sends a request to the server for authentication passing the username and password
     axios.post('https://shielded-oasis-17182.herokuapp.com/login', {
       Username: username,
       Password: password
     })
     .then(response => {
       const data = response.data;
-      props.onLoggedIn(data);
+      props.onLoggedIn(data); //If there is a match the onLoggedIn method that was passed through the props is called
     })
     .catch(e => {
       console.log('no such user')

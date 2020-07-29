@@ -35749,15 +35749,15 @@ function LoginView(props) {
       setPassword = _useState4[1];
 
   var handleSubmit = function handleSubmit(e) {
-    e.preventDefault();
-    /* Send a request to the server for authentication */
+    e.preventDefault(); //This prevents default behavior of submitting a form
+    //Then sends a request to the server for authentication passing the username and password
 
     _axios.default.post('https://shielded-oasis-17182.herokuapp.com/login', {
       Username: username,
       Password: password
     }).then(function (response) {
       var data = response.data;
-      props.onLoggedIn(data);
+      props.onLoggedIn(data); //If there is a match the onLoggedIn method that was passed through the props is called
     }).catch(function (e) {
       console.log('no such user');
     });
@@ -35812,6 +35812,8 @@ exports.RegistrationView = RegistrationView;
 
 var _react = _interopRequireWildcard(require("react"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 require("./registration-view.scss");
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
@@ -35859,7 +35861,8 @@ function RegistrationView(props) {
 
   var handleRegistration = function handleRegistration(e) {
     e.preventDefault();
-    axios.post("https://shielded-oasis-17182.herokuapp.com/users", {
+
+    _axios.default.post("https://shielded-oasis-17182.herokuapp.com/users", {
       Username: username,
       Password: password,
       Email: email,
@@ -35924,7 +35927,7 @@ function RegistrationView(props) {
     type: "submit"
   }, "Register"));
 } //<Button variant="primary" type="submit" onClick={handleRegistration}>Register</Button>
-},{"react":"../node_modules/react/index.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","./registration-view.scss":"components/registration-view/registration-view.scss","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49381,7 +49384,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProfileView = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -49392,10 +49395,6 @@ var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -49431,8 +49430,10 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this);
     _this.state = {
-      isLoading: false,
-      userData: null
+      username: null,
+      password: null,
+      email: null,
+      birthday: null
     };
     return _this;
   }
@@ -49441,30 +49442,28 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var accessToken = localStorage.getItem('token');
-
-      if (accessToken !== null) {
-        this.getUser(accessToken);
-      }
+      this.getUser(accessToken);
     }
   }, {
     key: "getUser",
     value: function getUser(token) {
       var _this2 = this;
 
-      _axios.default.get("https://shielded-oasis-17182.herokuapp.com/users/:Username", {
-        isLoading: true,
+      var username = localStorage.getItem('user');
+
+      var response = _axios.default.get("https://shielded-oasis-17182.herokuapp.com/users/:Username", {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        console.log(response);
-
         _this2.setState({
-          userData: response.data,
-          isLoading: false
+          Username: username,
+          Password: password,
+          Email: email,
+          Birthday: birthday
         });
-      }).catch(function (error) {
-        console.log(error);
+      }).catch(function (e) {
+        console.log('error');
       });
     }
   }, {
@@ -49475,7 +49474,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           password = _this$state.password,
           email = _this$state.email,
           birthday = _this$state.birthday;
-      if (isLoading) return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.username), _react.default.createElement(_Card.default.Text, null, "Password: ", this.state.password), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", this.state.birthday), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: ", this.state.Password), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", this.state.Birthday), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, "Back")))));
     }
@@ -49570,9 +49569,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function getMovies(token) {
       var _this2 = this;
 
-      _axios.default.get('https://shielded-oasis-17182.herokuapp.com/movies', {
+      _axios.default.get("https://shielded-oasis-17182.herokuapp.com/movies", {
         headers: {
-          Authorization: "Bearer ".concat(token)
+          Authorization: "Bearer ".concat(token) //By passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
+
         }
       }).then(function (response) {
         // Assign the result to the state
@@ -49583,6 +49583,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         console.log(error);
       });
     }
+    /*In the code below, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY').
+    If the access token is present, it means the user is already logged in and you can call the getMovies method, which makes a GET request to the movies endpoint.
+    */
+
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -49600,11 +49604,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function onLoggedIn(authData) {
       console.log(authData);
       this.setState({
-        user: authData.user.Username
+        user: authData.user.Username //THe user's Username has been saved in the user state
+
       });
-      localStorage.setItem('token', authData.token);
-      localStorage.setItem('user', authData.user.Username);
-      this.getMovies(authData.token);
+      localStorage.setItem('token', authData.token); //The auth information received from the handleSubmit method—the token and the user—has been saved in localStorage
+
+      localStorage.setItem('user', authData.user.Username); //localStorage has a setItem method that accepts two arguments: a key and a value. In this example, the token and username have been saved.
+
+      this.getMovies(authData.token); //this.getMovies(authData) is called and will get the movies from your API once the user is logged in
     }
   }, {
     key: "onLoggedOut",
@@ -49614,6 +49621,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       this.setState({
         user: null
       });
+      window.open('/', '_self');
     }
   }, {
     key: "onRegister",
@@ -49698,7 +49706,13 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             }).Genre
           });
         }
-      })));
+      }), _react.default.createElement(_Button.default, {
+        variant: "primary",
+        type: "submit",
+        onClick: function onClick() {
+          return _this3.onLoggedOut();
+        }
+      }, "Logout")));
     }
   }]);
 
@@ -49835,7 +49849,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55235" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64889" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
