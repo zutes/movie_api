@@ -12,10 +12,6 @@ app.use(express.static('public'));
 //Install validator
 const { check, validationResult } = require('express-validator');
 
-//Authentication(passport) and Authorization(auth)
-const passport = require('passport');
-require('./passport');
-
 //Integrating Mongoose with REST API
 const mongoose = require('mongoose');
 const Models = require('./models.js');
@@ -68,6 +64,10 @@ app.use(
 );
 
 let auth = require('./auth')(app);
+
+//Authentication(passport) and Authorization(auth)
+const passport = require('passport');
+require('./passport');
 
 app.get('/', (req, res) => {
   res.send('Welcome to the myFlix app!');
@@ -209,23 +209,45 @@ app.post(
 //}
 app.put(
   '/users/:Username',
+  //Validation logic here for request
+  [
+    check(
+      'Username',
+      'Username cannot have fewer than 5 characters.'
+    ).isLength({ min: 5 }),
+    check(
+      'Username',
+      'Username may not contain non alphanumeric characters.'
+    ).isAlphanumeric(),
+    check('Password', 'Password is required.').not().isEmpty(),
+    check('Email', 'Email must be valid email address.').isEmail(),
+  ],
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    Users.update(
+  function (req, res) {
+    //Check validation object for errors
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    var hashedPassword = Users.hashPassword(req.body.Password);
+
+    Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
         $set: {
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
         },
       },
-      { new: true }, // This line makes sure that the updated document is returned
-      (error, updatedUser) => {
-        if (error) {
-          console.error(error);
-          res.status(500).send('Error: ' + error);
+      { new: true }, //Makes sure updated document is returned
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
         } else {
           res.json(updatedUser);
         }
