@@ -27,6 +27,8 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
+      favorites: [],
+      //selectedMovie: null
     };
   }
 
@@ -48,7 +50,6 @@ export class MainView extends React.Component {
   /*In the code below, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY').
   If the access token is present, it means the user is already logged in and you can call the getMovies method, which makes a GET request to the movies endpoint.
   */
-  
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
@@ -95,7 +96,7 @@ export class MainView extends React.Component {
     if (!movies) return <div className="main-view" />;
 
     return (
-      
+
       <Router>
         <div className="main-view">
           <Route exact path="/" render={() => {
@@ -117,16 +118,16 @@ export class MainView extends React.Component {
             return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
           }
           } />
-          
 
-          <Button variant="primary" type="submit" onClick={ () => this.onLoggedOut()}>Logout</Button>
-          
+
+          <Button variant="primary" type="submit" onClick={() => this.onLoggedOut()}>Logout</Button>
+
 
         </div>
       </Router>
-      
+
     );
-    
+
   }
 }
 

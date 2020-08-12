@@ -16,7 +16,6 @@ const { check, validationResult } = require('express-validator');
 const passport = require('passport');
 require('./passport');
 
-
 //Integrating Mongoose with REST API
 const mongoose = require('mongoose');
 const Models = require('./models.js');
@@ -43,10 +42,10 @@ const cors = require('cors');
 //CORS sites granted access
 
 let allowedOrigins = [
-  "http://localhost:8080",
-  "http://localhost:1234",
-  "http://shielded-oasis-17182.herokuapp.com/",
-  "https://shielded-oasis-17182.herokuapp.com/",
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'http://shielded-oasis-17182.herokuapp.com/',
+  'https://shielded-oasis-17182.herokuapp.com/',
 ];
 
 /*
