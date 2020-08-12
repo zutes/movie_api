@@ -49519,8 +49519,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         console.log("Your account details have been updated.");
         localStorage.setItem("user", _this3.state.usernameForm);
 
-        _this3.getUser(localStorage.getItem("token")); // document.getElementsByClassName("updateInfoForm")[0].reset();
+        _this3.getUser(localStorage.getItem("token"));
 
+        window.open("/", "_self");
       }).catch(function (error) {
         console.log("error");
       });
@@ -49990,7 +49991,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51492" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51556" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -73,7 +73,8 @@ export class ProfileView extends React.Component {
         console.log("Your account details have been updated.");
         localStorage.setItem("user", this.state.usernameForm);
         this.getUser(localStorage.getItem("token"));
-        // document.getElementsByClassName("updateInfoForm")[0].reset();
+        window.open("/", "_self");
+
       })
       .catch(error => {
         console.log("error");
