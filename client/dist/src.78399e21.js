@@ -49487,8 +49487,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           Username: res.data.Username,
           Password: res.data.Password,
           Email: res.data.Email,
-          Birthday: res.data.Birthday,
-          FavoriteMovies: res.data.FavoriteMovies
+          Birthday: res.data.Birthday //FavoriteMovies: res.data.FavoriteMovies,
+
         });
       }).catch(function (error) {
         console.log(error);
@@ -49539,7 +49539,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         xs: 7
       }, _react.default.createElement("h2", {
         className: "my-4"
-      }, "User Profile Information"))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
+      }, "Your Profile"))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
         xs: 2
       }, "Username:"), _react.default.createElement(_Col.default, null, username)), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
         xs: 2
@@ -49991,7 +49991,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51556" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53157" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

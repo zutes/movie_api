@@ -42,7 +42,7 @@ export class ProfileView extends React.Component {
           Password: res.data.Password,
           Email: res.data.Email,
           Birthday: res.data.Birthday,
-          FavoriteMovies: res.data.FavoriteMovies,
+          //FavoriteMovies: res.data.FavoriteMovies,
         });
       })
       .catch(function (error) {
@@ -105,7 +105,7 @@ export class ProfileView extends React.Component {
     return (
       <Container>
         <Row>
-          <Col xs={7}><h2 className="my-4">User Profile Information</h2></Col>
+          <Col xs={7}><h2 className="my-4">Your Profile</h2></Col>
         </Row>
         <Row>
           {/* <Col xs={1}></Col> */}
