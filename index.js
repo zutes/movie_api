@@ -15,6 +15,7 @@ const { check, validationResult } = require('express-validator');
 //Authentication(passport) and Authorization(auth)
 const passport = require('passport');
 require('./passport');
+let auth = require('./auth')(app);
 
 //Integrating Mongoose with REST API
 const mongoose = require('mongoose');
@@ -66,8 +67,6 @@ app.use(
     },
   })
 );
-
-let auth = require('./auth')(app);
 
 app.get('/', (req, res) => {
   res.send('Welcome to the myFlix app!');
