@@ -63,7 +63,7 @@ app.use(
   })
 );
 
-let auth = require('./auth')(app);
+//let auth = require('./auth')(app);
 
 //Authentication(passport) and Authorization(auth)
 const passport = require('passport');
