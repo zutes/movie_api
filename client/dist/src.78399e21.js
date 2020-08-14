@@ -49444,7 +49444,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem("token"))
         }
-      }).then(function (response) {
+      }).then(function (res) {
         console.log("Your account has been successfully deleted.");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
@@ -49458,9 +49458,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       username: null,
       password: null,
       email: null,
-      birthday: null,
-      favoriteMovies: [],
-      movies: []
+      birthday: null //favoriteMovies: [],
+      //movies: [],
+
     };
     return _this;
   }
@@ -49482,7 +49482,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
-      }).then(function (respsonse) {
+      }).then(function (res) {
         _this2.setState({
           Username: res.data.Username,
           Password: res.data.Password,
@@ -49515,7 +49515,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem("token"))
         }
-      }).then(function (response) {
+      }).then(function (res) {
         console.log("Your account details have been updated.");
         localStorage.setItem("user", _this3.state.usernameForm);
 
@@ -49991,7 +49991,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65408" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49379" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

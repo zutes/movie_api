@@ -17,8 +17,8 @@ export class ProfileView extends React.Component {
       password: null,
       email: null,
       birthday: null,
-      favoriteMovies: [],
-      movies: [],
+      //favoriteMovies: [],
+      //movies: [],
     };
   }
 
@@ -36,7 +36,7 @@ export class ProfileView extends React.Component {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      .then(respsonse => {
+      .then(res => {
         this.setState({
           Username: res.data.Username,
           Password: res.data.Password,
@@ -69,7 +69,7 @@ export class ProfileView extends React.Component {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         }
       )
-      .then(response => {
+      .then(res => {
         console.log("Your account details have been updated.");
         localStorage.setItem("user", this.state.usernameForm);
         this.getUser(localStorage.getItem("token"));
@@ -86,7 +86,7 @@ export class ProfileView extends React.Component {
     axios.delete(`https://shielded-oasis-17182.herokuapp.com/users/${localStorage.getItem("user")}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
-      .then(response => {
+      .then(res => {
         console.log("Your account has been successfully deleted.");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
