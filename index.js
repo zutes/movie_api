@@ -210,6 +210,7 @@ app.post(
 app.put(
   '/users/:Username',
   //Validation logic here for request
+  passport.authenticate('jwt', { session: false }),
   [
     check(
       'Username',
@@ -222,8 +223,8 @@ app.put(
     check('Password', 'Password is required.').not().isEmpty(),
     check('Email', 'Email must be valid email address.').isEmail(),
   ],
-  passport.authenticate('jwt', { session: false }),
-  function (req, res) {
+
+  (req, res) => {
     //Check validation object for errors
     var errors = validationResult(req);
 
