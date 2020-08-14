@@ -35867,7 +35867,7 @@ function RegistrationView(props) {
       Password: password,
       Email: email,
       Birthday: birthday
-    }).then(function (res) {
+    }).then(function (response) {
       var data = response.data;
       console.log(data);
       window.open('/', '_self');
@@ -49458,9 +49458,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       username: null,
       password: null,
       email: null,
-      birthday: null //favoriteMovies: [],
-      //movies: [],
-
+      birthday: null,
+      favoriteMovies: [],
+      movies: []
     };
     return _this;
   }
@@ -49991,7 +49991,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49379" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49837" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
