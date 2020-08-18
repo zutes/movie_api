@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 
 import Button from "react-bootstrap/Button";
-import ListGroup from 'react-bootstrap/ListGroup';
 import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 

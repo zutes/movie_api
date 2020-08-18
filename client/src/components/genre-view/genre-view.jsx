@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
@@ -19,7 +19,7 @@ export class GenreView extends React.Component {
     if (!genre) return null;
 
     return (
-        <div className="genre-view">
+      <div className="genre-view">
         <Container>
           <Card style={{ width: '32rem' }}>
             <Card.Body>

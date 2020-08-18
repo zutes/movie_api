@@ -3,9 +3,6 @@ import axios from 'axios';
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Button from "react-bootstrap/Button";
 
 import "./main-view.scss";
