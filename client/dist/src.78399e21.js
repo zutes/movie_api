@@ -37367,6 +37367,10 @@ var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 
 var _Image = _interopRequireDefault(require("react-bootstrap/Image"));
 
+var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
+
 var _reactRouterDom = require("react-router-dom");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -37413,26 +37417,34 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var movie = this.props.movie;
       if (!movie) return null;
-      return _react.default.createElement(_Col.default, null, _react.default.createElement("div", {
+      return _react.default.createElement(_Container.default, {
         className: "movie-view"
-      }, _react.default.createElement(_ListGroup.default, null, _react.default.createElement(_ListGroup.default.Item, null, _react.default.createElement(_Image.default, {
-        className: "img-fluid",
+      }, _react.default.createElement("img", {
+        className: "movie-poster",
         src: movie.ImagePath
-      })), _react.default.createElement(_ListGroup.default.Item, null, _react.default.createElement("span", {
+      }), _react.default.createElement(_Row.default, {
+        className: "movie-title"
+      }, _react.default.createElement(_Col.default, {
         className: "label"
-      }, "Title: ", _react.default.createElement("br", null), " "), _react.default.createElement("span", {
+      }, _react.default.createElement("span", null, _react.default.createElement("strong", null, "Title: ")), _react.default.createElement("span", {
         className: "value"
-      }, movie.Title)), _react.default.createElement(_ListGroup.default.Item, null, _react.default.createElement("span", {
+      }, movie.Title))), _react.default.createElement(_Row.default, {
+        className: "movie-description"
+      }, _react.default.createElement(_Col.default, {
         className: "label"
-      }, "Description: ", _react.default.createElement("br", null), " "), _react.default.createElement("span", {
+      }, _react.default.createElement("span", null, _react.default.createElement("strong", null, "Description: ")), _react.default.createElement("span", {
         className: "value"
-      }, movie.Description)), _react.default.createElement(_ListGroup.default.Item, null, _react.default.createElement("span", {
+      }, movie.Description))), _react.default.createElement(_Row.default, {
+        className: "movie-genre"
+      }, _react.default.createElement(_Col.default, {
         className: "label"
-      }, "Genre: ", _react.default.createElement("br", null), " "), _react.default.createElement("span", {
+      }, _react.default.createElement("span", null, _react.default.createElement("strong", null, "Genre: ")), _react.default.createElement("span", {
         className: "value"
-      }, movie.Genre.Name)), _react.default.createElement(_ListGroup.default.Item, null, _react.default.createElement("span", {
+      }, movie.Genre.Name))), _react.default.createElement(_Row.default, {
+        className: "movie-director"
+      }, _react.default.createElement(_Col.default, {
         className: "label"
-      }, "Director: ", _react.default.createElement("br", null), " "), _react.default.createElement("span", {
+      }, _react.default.createElement("span", null, _react.default.createElement("strong", null, "Director: "), " "), _react.default.createElement("span", {
         className: "value"
       }, movie.Director.Name))), _react.default.createElement(_reactRouterDom.Link, {
         to: "/directors/".concat(movie.Director.Name)
@@ -37446,28 +37458,15 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Back"))));
+      }, "Back")));
     }
   }]);
 
   return MovieView;
 }(_react.default.Component);
-/*
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    //ImagePath: PropTypes.string.isRequired,
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    Genre: PropTypes.object.isRequired,
-    Director: PropTypes.object.isRequired,
-  }).isRequired,
-  onClick: PropTypes.func.isRequired
-};
-*/
-
 
 exports.MovieView = MovieView;
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Image":"../node_modules/react-bootstrap/esm/Image.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Image":"../node_modules/react-bootstrap/esm/Image.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
