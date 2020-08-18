@@ -37415,7 +37415,9 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          onClick = _this$props.onClick;
       if (!movie) return null;
       return _react.default.createElement(_Container.default, {
         className: "movie-view"
@@ -49565,7 +49567,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       });
       return _react.default.createElement(_Container.default, null, _react.default.createElement("div", {
         className: "profile-view"
-      }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Username: ", username), _react.default.createElement(_Card.default.Text, null, "Email: ", email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", birthday), "Favorite Movies: ", favoriteMoviesList.map(function (movie) {
+      }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", username), _react.default.createElement(_Card.default.Text, null, "Email: ", email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", birthday), "Favorite Movies: ", favoriteMoviesList.map(function (movie) {
         return _react.default.createElement("div", {
           key: movie.id,
           className: "favorite-movies"
@@ -49578,19 +49580,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
             return _this5.deleteFavoriteMovie(movie._id);
           }
         }, "Remove Movie"));
-      }), _react.default.createElement(_reactRouterDom.Link, {
-        to: '/user/update'
-      }, _react.default.createElement(_Button.default, {
-        variant: "primary"
-      }, "Update Profile")), _react.default.createElement(_Button.default, {
-        onClick: function onClick() {
-          return _this5.deleteUser();
-        }
-      }, "Delete User"), _react.default.createElement(_reactRouterDom.Link, {
-        to: '/'
-      }, _react.default.createElement(_Button.default, {
-        variant: "link"
-      }, "Back")))), _react.default.createElement(_Form.default, {
+      }))), _react.default.createElement(_Form.default, {
         className: "updateInfoForm"
       }, _react.default.createElement(_Col.default, {
         xs: 4
@@ -49818,7 +49808,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       var _this$state = this.state,
           movies = _this$state.movies,
-          user = _this$state.user;
+          user = _this$state.user,
+          favorites = _this$state.favorites;
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
@@ -49846,6 +49837,13 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           return _react.default.createElement(_registrationView.RegistrationView, null);
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/user",
+        render: function render() {
+          return _react.default.createElement(_profileView.ProfileView, {
+            movies: movies
+          });
+        }
+      }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/movies/:movieId",
         render: function render(_ref) {
           var match = _ref.match;
@@ -49856,9 +49854,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/movies/director/:name",
+        path: "/directors/:name",
         render: function render(_ref2) {
           var match = _ref2.match;
+          if (!movies) return _react.default.createElement("div", {
+            className: "main-view"
+          });
           return _react.default.createElement(_directorView.DirectorView, {
             director: movies.find(function (m) {
               return m.Director.Name === match.params.name;
@@ -49866,20 +49867,16 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/movies/genre/:name",
+        path: "/genres/:name",
         render: function render(_ref3) {
           var match = _ref3.match;
+          if (!movies) return _react.default.createElement("div", {
+            className: "main-view"
+          });
           return _react.default.createElement(_genreView.GenreView, {
             genre: movies.find(function (m) {
               return m.Genre.Name === match.params.name;
             }).Genre
-          });
-        }
-      }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/user",
-        render: function render() {
-          return _react.default.createElement(_profileView.ProfileView, {
-            movies: movies
           });
         }
       }), _react.default.createElement(_Button.default, {
@@ -49988,7 +49985,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63906" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65185" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

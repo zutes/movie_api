@@ -132,7 +132,7 @@ export class ProfileView extends React.Component {
       <Container>
         <div className="profile-view">
           <Card.Body>
-            <Card.Title>Username: {username}</Card.Title>
+            <Card.Text>Username: {username}</Card.Text>
             <Card.Text>Email: {email}</Card.Text>
             <Card.Text>Birthday: {birthday}</Card.Text>
                     Favorite Movies: {favoriteMoviesList.map((movie) => (
@@ -143,13 +143,7 @@ export class ProfileView extends React.Component {
                 <Button onClick={(e) => this.deleteFavoriteMovie(movie._id)}>Remove Movie</Button>
               </div>
             ))}
-            <Link to={'/user/update'}>
-              <Button variant="primary">Update Profile</Button>
-            </Link>
-            <Button onClick={() => this.deleteUser()}>Delete User</Button>
-            <Link to={'/'}>
-              <Button variant="link">Back</Button>
-            </Link>
+
           </Card.Body>
         </div>
 
