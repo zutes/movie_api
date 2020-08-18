@@ -36172,7 +36172,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_Button.default, {
         variant: "link"
       }, "View Movie Details")), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/users/:Username"
+        to: "/user"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
       }, "View Your Profile Here!"))));
@@ -37411,9 +37411,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          onClick = _this$props.onClick;
+      var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement(_Col.default, null, _react.default.createElement("div", {
         className: "movie-view"
@@ -49399,6 +49397,8 @@ var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
+var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -49430,12 +49430,12 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(ProfileView);
 
-  function ProfileView(props) {
+  function ProfileView() {
     var _this;
 
     _classCallCheck(this, ProfileView);
 
-    _this = _super.call(this, props);
+    _this = _super.call(this);
 
     _this.handleDelete = function (e) {
       e.preventDefault();
@@ -49459,8 +49459,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       password: null,
       email: null,
       birthday: null,
-      favoriteMovies: [],
-      movies: []
+      //userData: null,
+      favoriteMovies: [] //movies: [],
+
     };
     return _this;
   }
@@ -49484,14 +49485,38 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (res) {
         _this2.setState({
-          Username: res.data.Username,
-          Password: res.data.Password,
-          Email: res.data.Email,
-          Birthday: res.data.Birthday //FavoriteMovies: res.data.FavoriteMovies,
-
+          username: res.data.Username,
+          password: res.data.Password,
+          email: res.data.Email,
+          birthday: res.data.Birthday,
+          favoriteMovies: res.data.FavoriteMovies
         });
+
+        console.log(res.data.Username);
+        console.log(res.data.Password);
+        console.log(res.data.Email);
+        console.log(res.data.Birthday);
+        console.log(res.data.FavoriteMovies);
       }).catch(function (error) {
         console.log(error);
+      });
+    }
+  }, {
+    key: "deleteFavoriteMovie",
+    value: function deleteFavoriteMovie(movieId) {
+      var _this3 = this;
+
+      _axios.default.delete("https://shielded-oasis-17182.herokuapp.com/users/".concat(localStorage.getItem("user"), "/movies/").concat(movieId), {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("token"))
+        }
+      }).then(function (response) {
+        console.log(response);
+        console.log('successfully deleted');
+
+        _this3.getUser(localStorage.token);
+      }).catch(function (err) {
+        console.error(err);
       });
     }
   }, {
@@ -49502,7 +49527,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       e.preventDefault();
 
@@ -49517,9 +49542,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (res) {
         console.log("Your account details have been updated.");
-        localStorage.setItem("user", _this3.state.usernameForm);
+        localStorage.setItem("user", _this4.state.usernameForm);
 
-        _this3.getUser(localStorage.getItem("token"));
+        _this4.getUser(localStorage.getItem("token"));
 
         window.open("/", "_self");
       }).catch(function (error) {
@@ -49529,31 +49554,44 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
-      var _this$props = this.props,
-          username = _this$props.username,
-          email = _this$props.email,
-          birthday = _this$props.birthday;
-      return _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
-        xs: 7
-      }, _react.default.createElement("h2", {
-        className: "my-4"
-      }, "Your Profile"))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
-        xs: 2
-      }, "Username:"), _react.default.createElement(_Col.default, null, username)), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
-        xs: 2
-      }, "Password:"), _react.default.createElement(_Col.default, {
-        xs: 5
-      }, "*******")), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
-        xs: 2
-      }, "Email:  "), _react.default.createElement(_Col.default, {
-        xs: 5
-      }, email)), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
-        xs: 2
-      }, "Birthday:  "), _react.default.createElement(_Col.default, {
-        xs: 5
-      }, birthday)), _react.default.createElement(_Form.default, {
+      var _this$state = this.state,
+          username = _this$state.username,
+          email = _this$state.email,
+          birthday = _this$state.birthday;
+      var movies = this.props.movies;
+      var favoriteMoviesList = movies.filter(function (movie) {
+        return _this5.state.favoriteMovies.includes(movie._id);
+      });
+      return _react.default.createElement(_Container.default, null, _react.default.createElement("div", {
+        className: "profile-view"
+      }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Username: ", username), _react.default.createElement(_Card.default.Text, null, "Email: ", email), _react.default.createElement(_Card.default.Text, null, "Birthday: ", birthday), "Favorite Movies: ", favoriteMoviesList.map(function (movie) {
+        return _react.default.createElement("div", {
+          key: movie.id,
+          className: "favorite-movies"
+        }, _react.default.createElement(_reactRouterDom.Link, {
+          to: '/movies/${movie._id}'
+        }, _react.default.createElement(_Button.default, {
+          variant: "link"
+        }, movie.Title)), _react.default.createElement(_Button.default, {
+          onClick: function onClick(e) {
+            return _this5.deleteFavoriteMovie(movie._id);
+          }
+        }, "Remove Movie"));
+      }), _react.default.createElement(_reactRouterDom.Link, {
+        to: '/user/update'
+      }, _react.default.createElement(_Button.default, {
+        variant: "primary"
+      }, "Update Profile")), _react.default.createElement(_Button.default, {
+        onClick: function onClick() {
+          return _this5.deleteUser();
+        }
+      }, "Delete User"), _react.default.createElement(_reactRouterDom.Link, {
+        to: '/'
+      }, _react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "Back")))), _react.default.createElement(_Form.default, {
         className: "updateInfoForm"
       }, _react.default.createElement(_Col.default, {
         xs: 4
@@ -49564,7 +49602,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placedholder: "Update your user name",
         name: "usernameForm",
         onChange: function onChange(e) {
-          return _this4.handleUpdate(e);
+          return _this5.handleUpdate(e);
         }
       }))), _react.default.createElement(_Col.default, {
         xs: 4
@@ -49575,7 +49613,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placedholder: "Password",
         name: "passwordForm",
         onChange: function onChange(e) {
-          return _this4.handleUpdate(e);
+          return _this5.handleUpdate(e);
         }
       }))), _react.default.createElement(_Col.default, {
         xs: 4
@@ -49586,7 +49624,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placedholder: "Email",
         name: "emailForm",
         onChange: function onChange(e) {
-          return _this4.handleUpdate(e);
+          return _this5.handleUpdate(e);
         }
       }))), _react.default.createElement(_Col.default, {
         xs: 4
@@ -49597,19 +49635,19 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placedholder: "Birthday",
         name: "birthdayForm",
         onChange: function onChange(e) {
-          return _this4.handleUpdate(e);
+          return _this5.handleUpdate(e);
         }
       }))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Button.default, {
         variant: "primary",
         type: "button",
         onClick: function onClick(e) {
-          return _this4.handleSubmit(e);
+          return _this5.handleSubmit(e);
         }
       }, "Update"), _react.default.createElement(_Button.default, {
         variant: "primary",
         type: "button",
         onClick: function onClick(e) {
-          return _this4.handleDelete(e);
+          return _this5.handleDelete(e);
         }
       }, "Delete Account"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -49624,7 +49662,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49700,7 +49738,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       movies: [],
       user: null,
-      favorites: [] //selectedMovie: null
+      favoriteMovies: [] //selectedMovie: null
 
     };
     return _this;
@@ -49719,7 +49757,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }).then(function (response) {
         // Assign the result to the state
         _this2.setState({
-          movies: response.data
+          movies: response.data,
+          favoriteMovies: response.data
         });
       }).catch(function (error) {
         console.log(error);
@@ -49746,8 +49785,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function onLoggedIn(authData) {
       console.log(authData);
       this.setState({
-        user: authData.user.Username //THe user's Username has been saved in the user state
-
+        user: authData.user.Username,
+        //THe user's Username has been saved in the user state
+        favorites: authData.user.Favorites
       });
       localStorage.setItem('token', authData.token); //The auth information received from the handleSubmit method—the token and the user—has been saved in localStorage
 
@@ -49779,8 +49819,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       var _this$state = this.state,
           movies = _this$state.movies,
-          user = _this$state.user,
-          favorites = _this$state.favorites;
+          user = _this$state.user;
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
@@ -49808,11 +49847,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           return _react.default.createElement(_registrationView.RegistrationView, null);
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/users/:Username",
-        render: function render() {
-          return _react.default.createElement(_profileView.ProfileView, null);
-        }
-      }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/movies/:movieId",
         render: function render(_ref) {
           var match = _ref.match;
@@ -49823,12 +49857,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/directors/:name",
+        path: "/movies/director/:name",
         render: function render(_ref2) {
           var match = _ref2.match;
-          if (!movies) return _react.default.createElement("div", {
-            className: "main-view"
-          });
           return _react.default.createElement(_directorView.DirectorView, {
             director: movies.find(function (m) {
               return m.Director.Name === match.params.name;
@@ -49836,65 +49867,32 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/genres/:name",
+        path: "/movies/genre/:name",
         render: function render(_ref3) {
           var match = _ref3.match;
-          if (!movies) return _react.default.createElement("div", {
-            className: "main-view"
-          });
           return _react.default.createElement(_genreView.GenreView, {
             genre: movies.find(function (m) {
               return m.Genre.Name === match.params.name;
             }).Genre
           });
         }
+      }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/user",
+        render: function render() {
+          return _react.default.createElement(_profileView.ProfileView, {
+            movies: movies
+          });
+        }
       }), _react.default.createElement(_Button.default, {
-        variant: "primary",
-        type: "submit",
         onClick: function onClick() {
           return _this3.onLoggedOut();
         }
-      }, "Logout")));
+      }, "Log Out")));
     }
   }]);
 
   return MainView;
 }(_react.default.Component);
-/*
-  render() {
-    const { movies, selectedMovie, user, register } = this.state;
-
-    if (!user && register === false) return <LoginView onLoggedIn={user => this.onLoggedIn(user)}
-      notRegistered={(register) => this.onRegister(register)} />;
-
-    if (register) return <RegistrationView />;
-
-    // Before the movies have been loaded
-    if (!movies) return <div className="main-view" />;
-
-    return (
-      <div className="main-view">
-        <Container>
-          <Row>
-            {selectedMovie
-              ? (<MovieView movie={selectedMovie} onClick={() => this.onMovieClick()} />)
-              : (movies.map((movie) => (
-                <Col key={movie._id}>
-                  <MovieCard key={movie._id} movie={movie} onClick={(movie) => this.onMovieClick(movie)} />
-                </Col>
-              ))
-              )}
-          </Row>
-          <Button type="button" className="logout" variant="info" onClick={() => this.onLoggedOut()}>
-          <b>Log Out</b>
-        </Button>
-        </Container>
-      </div>
-    );
-  }
-}
-*/
-
 
 exports.MainView = MainView;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./main-view.scss":"components/main-view/main-view.scss","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx"}],"index.scss":[function(require,module,exports) {
@@ -49991,7 +49989,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63194" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63906" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

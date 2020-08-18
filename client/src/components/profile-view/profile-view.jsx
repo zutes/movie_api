@@ -7,18 +7,20 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
 
 
 export class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       username: null,
       password: null,
       email: null,
       birthday: null,
+      //userData: null,
       favoriteMovies: [],
-      movies: [],
+      //movies: [],
     };
   }
 
@@ -38,15 +40,35 @@ export class ProfileView extends React.Component {
 
       .then(res => {
         this.setState({
-          Username: res.data.Username,
-          Password: res.data.Password,
-          Email: res.data.Email,
-          Birthday: res.data.Birthday,
-          //FavoriteMovies: res.data.FavoriteMovies,
+          username: res.data.Username,
+          password: res.data.Password,
+          email: res.data.Email,
+          birthday: res.data.Birthday,
+          favoriteMovies: res.data.FavoriteMovies,
         });
+
+        console.log(res.data.Username);
+        console.log(res.data.Password);
+        console.log(res.data.Email);
+        console.log(res.data.Birthday);
+        console.log(res.data.FavoriteMovies);
       })
       .catch(function (error) {
         console.log(error);
+      });
+  }
+
+  deleteFavoriteMovie(movieId) {
+    axios.delete(`https://shielded-oasis-17182.herokuapp.com/users/${localStorage.getItem("user")}/movies/${movieId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    })
+      .then(response => {
+        console.log(response)
+        console.log('successfully deleted')
+        this.getUser(localStorage.token)
+      })
+      .catch(err => {
+        console.error(err);
       });
   }
 
@@ -99,35 +121,37 @@ export class ProfileView extends React.Component {
 
 
   render() {
-    const { username, email, birthday } = this.props;
 
+    const { username, email, birthday } = this.state;
+    const { movies } = this.props;
+    const favoriteMoviesList = movies.filter((movie) =>
+      this.state.favoriteMovies.includes(movie._id)
+    );
 
     return (
       <Container>
-        <Row>
-          <Col xs={7}><h2 className="my-4">Your Profile</h2></Col>
-        </Row>
-        <Row>
-          {/* <Col xs={1}></Col> */}
-          <Col xs={2}>Username:</Col>
-          <Col>{username}</Col>
-        </Row>
-        <Row>
-          {/* <Col xs={1}></Col> */}
-          <Col xs={2}>Password:</Col>
-          <Col xs={5}>*******</Col>
-        </Row>
-        <Row>
-          {/* <Col xs={1}></Col> */}
-          <Col xs={2}>Email:  </Col>
-          <Col xs={5}>{email}</Col>
-        </Row>
-        <Row>
-          {/* <Col xs={1}></Col> */}
-          <Col xs={2}>Birthday:  </Col>
-          <Col xs={5}>{birthday}</Col>
-        </Row>
-
+        <div className="profile-view">
+          <Card.Body>
+            <Card.Title>Username: {username}</Card.Title>
+            <Card.Text>Email: {email}</Card.Text>
+            <Card.Text>Birthday: {birthday}</Card.Text>
+                    Favorite Movies: {favoriteMoviesList.map((movie) => (
+              <div key={movie.id} className="favorite-movies">
+                <Link to={'/movies/${movie._id}'}>
+                  <Button variant="link">{movie.Title}</Button>
+                </Link>
+                <Button onClick={(e) => this.deleteFavoriteMovie(movie._id)}>Remove Movie</Button>
+              </div>
+            ))}
+            <Link to={'/user/update'}>
+              <Button variant="primary">Update Profile</Button>
+            </Link>
+            <Button onClick={() => this.deleteUser()}>Delete User</Button>
+            <Link to={'/'}>
+              <Button variant="link">Back</Button>
+            </Link>
+          </Card.Body>
+        </div>
 
         <Form className="updateInfoForm">
           <Col xs={4}>
@@ -157,13 +181,13 @@ export class ProfileView extends React.Component {
           <Row>
             <Button variant="primary" type="button" onClick={e => this.handleSubmit(e)}>Update</Button >
             <Button variant="primary" type="button" onClick={e => this.handleDelete(e)}>Delete Account</Button >
+
             <Link to={`/`}>
               <Button variant="primary" type="button">Back</Button>
             </Link>
 
           </Row>
         </Form>
-
       </Container>
     );
   }

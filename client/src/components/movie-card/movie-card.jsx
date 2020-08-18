@@ -20,7 +20,7 @@ export class MovieCard extends React.Component {
           <Link to={`/movies/${movie._id}`}>
             <Button variant="link">View Movie Details</Button>
           </Link>
-          <Link to={`/users/:Username`}>
+          <Link to={`/user`}>
             <Button variant="link">
               View Your Profile Here!
           </Button>

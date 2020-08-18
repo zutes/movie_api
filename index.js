@@ -153,6 +153,22 @@ app.get(
   }
 );
 
+//Get all users
+app.get(
+  '/users',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Users.find()
+      .then((users) => {
+        res.status(201).json(users);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  }
+);
+
 //Adds a new user
 // Validation logic here for request
 //you can either use a chain of methods like .not().isEmpty()
@@ -282,6 +298,28 @@ app.post(
         if (error) {
           console.error(error);
           res.status(500).send('Error: ' + error);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+app.delete(
+  '/users/:Username/movies/:_id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $pull: { Favorites: req.params._id },
+      },
+      { new: true }, // This line makes sure that the updated document is returned
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
         } else {
           res.json(updatedUser);
         }

@@ -17,7 +17,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
 
     if (!movie) return null;
 
@@ -45,18 +45,18 @@ export class MovieView extends React.Component {
               <span className="value">{movie.Director.Name}</span>
             </ListGroup.Item>
 
-            
+
           </ListGroup>
           <Link to={`/directors/${movie.Director.Name}`}>
-  <Button variant="link">Director</Button>
-</Link>
+            <Button variant="link">Director</Button>
+          </Link>
 
-<Link to={`/genres/${movie.Genre.Name}`}>
-  <Button variant="link">Genre</Button>
-</Link>
-<Link to={`/`}>
-                <Button variant="link">Back</Button>
-              </Link></div>
+          <Link to={`/genres/${movie.Genre.Name}`}>
+            <Button variant="link">Genre</Button>
+          </Link>
+          <Link to={`/`}>
+            <Button variant="link">Back</Button>
+          </Link></div>
       </Col>
     );
   }

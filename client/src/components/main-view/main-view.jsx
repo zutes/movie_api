@@ -27,7 +27,7 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
-      favorites: [],
+      favoriteMovies: [],
       //selectedMovie: null
     };
   }
@@ -39,7 +39,8 @@ export class MainView extends React.Component {
       .then(response => {
         // Assign the result to the state
         this.setState({
-          movies: response.data
+          movies: response.data,
+          favoriteMovies: response.data
         });
       })
       .catch(function (error) {
@@ -63,7 +64,8 @@ export class MainView extends React.Component {
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user.Username //THe user's Username has been saved in the user state
+      user: authData.user.Username, //THe user's Username has been saved in the user state
+      favorites: authData.user.Favorites
     });
 
     localStorage.setItem('token', authData.token);  //The auth information received from the handleSubmit method—the token and the user—has been saved in localStorage
@@ -89,79 +91,27 @@ export class MainView extends React.Component {
 
 
   render() {
-    const { movies, user, favorites } = this.state;
-
-
+    const { movies, user } = this.state;
 
     if (!movies) return <div className="main-view" />;
 
     return (
-
       <Router>
         <div className="main-view">
-          <Route exact path="/" render={() => {
-            if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+          <Route exact path='/' render={() => {
+            if (!user) return (<LoginView onLoggedIn={user => this.onLoggedIn(user)} />);
             return movies.map(m => <MovieCard key={m._id} movie={m} />)
           }
           } />
-          <Route path="/register" render={() => <RegistrationView />} />
-          {/* you keep the rest routes here */}
-          <Route path="/users/:Username" render={() => <ProfileView />} />
-          <Route path="/movies/:movieId" render={({ match }) => <MovieView movie={movies.find(m => m._id === match.params.movieId)} />} />
-          <Route path="/directors/:name" render={({ match }) => {
-            if (!movies) return <div className="main-view" />;
-            return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
-          }
-          } />
-          <Route path="/genres/:name" render={({ match }) => {
-            if (!movies) return <div className="main-view" />;
-            return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
-          }
-          } />
 
-
-          <Button variant="primary" type="submit" onClick={() => this.onLoggedOut()}>Logout</Button>
-
-
+          <Route path='/register' render={() => <RegistrationView />} />
+          <Route path='/movies/:movieId' render={({ match }) => (<MovieView movie={movies.find(m => m._id === match.params.movieId)} />)} />
+          <Route path='/movies/director/:name' render={({ match }) => (<DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />)} />
+          <Route path='/movies/genre/:name' render={({ match }) => (<GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />)} />
+          <Route path='/user' render={() => <ProfileView movies={movies} />} />
+          <Button onClick={() => this.onLoggedOut()}>Log Out</Button>
         </div>
       </Router>
-
-    );
-
-  }
-}
-
-/*
-  render() {
-    const { movies, selectedMovie, user, register } = this.state;
-
-    if (!user && register === false) return <LoginView onLoggedIn={user => this.onLoggedIn(user)}
-      notRegistered={(register) => this.onRegister(register)} />;
-
-    if (register) return <RegistrationView />;
-
-    // Before the movies have been loaded
-    if (!movies) return <div className="main-view" />;
-
-    return (
-      <div className="main-view">
-        <Container>
-          <Row>
-            {selectedMovie
-              ? (<MovieView movie={selectedMovie} onClick={() => this.onMovieClick()} />)
-              : (movies.map((movie) => (
-                <Col key={movie._id}>
-                  <MovieCard key={movie._id} movie={movie} onClick={(movie) => this.onMovieClick(movie)} />
-                </Col>
-              ))
-              )}
-          </Row>
-          <Button type="button" className="logout" variant="info" onClick={() => this.onLoggedOut()}>
-          <b>Log Out</b>
-        </Button>
-        </Container>
-      </div>
     );
   }
 }
-*/
