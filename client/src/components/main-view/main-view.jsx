@@ -1,11 +1,21 @@
 import React from 'react';
 import axios from 'axios';
-
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
 
 import "./main-view.scss";
+
+
+//In the section of code marked #0, you imported the relevant actions (setMovies).
+//This action will be used in code section #2, where you connect it to the MainView using, again,
+//the connect() function, which returns another function. This is basically a way of wrapping inputs and outputs to a component.
+
+// #0
+import { setMovies } from '../../actions/actions';
+
+import MoviesList from '../movies-list/movies-list';
 
 
 import { LoginView } from '../login-view/login-view';
@@ -16,33 +26,15 @@ import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
 
+//Notice in the code below how MainView no longer carries its own state; the movies live in the store now. 
 
 export class MainView extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      movies: [],
-      user: null,
-      favoriteMovies: [],
-      //selectedMovie: null
+      user: null
     };
-  }
-
-  getMovies(token) {
-    axios.get(`https://shielded-oasis-17182.herokuapp.com/movies`, {
-      headers: { Authorization: `Bearer ${token}` } //By passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
-    })
-      .then(response => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data,
-          favoriteMovies: response.data
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   }
 
   /*In the code below, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY').
@@ -58,16 +50,27 @@ export class MainView extends React.Component {
     }
   }
 
+  getMovies(token) {
+    axios.get(`https://shielded-oasis-17182.herokuapp.com/movies`, {
+      headers: { Authorization: `Bearer ${token}` } //By passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
+    })
+      .then(response => {
+        // #1
+        this.props.setMovies(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   onLoggedIn(authData) {
-    console.log(authData);
     this.setState({
-      user: authData.user.Username, //THe user's Username has been saved in the user state
-      favorites: authData.user.Favorites
+      user: authData.user.Username
     });
 
-    localStorage.setItem('token', authData.token);  //The auth information received from the handleSubmit method—the token and the user—has been saved in localStorage
-    localStorage.setItem('user', authData.user.Username); //localStorage has a setItem method that accepts two arguments: a key and a value. In this example, the token and username have been saved.
-    this.getMovies(authData.token);  //this.getMovies(authData) is called and will get the movies from your API once the user is logged in
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
   }
 
   onLoggedOut() {
@@ -88,9 +91,8 @@ export class MainView extends React.Component {
 
 
   render() {
-    const { movies, user, favorites } = this.state;
-
-    if (!movies) return <div className="main-view" />;
+    let { movies } = this.props;
+    let { user } = this.state;
 
     return (
       <Router>
@@ -120,3 +122,11 @@ export class MainView extends React.Component {
     );
   }
 }
+
+// #3
+let mapStateToProps = state => {
+  return { movies: state.movies }
+}
+
+// #4
+export default connect(mapStateToProps, { setMovies })(MainView);
