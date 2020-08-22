@@ -1,5 +1,5 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import Button from "react-bootstrap/Button";
 import Col from 'react-bootstrap/Col';
@@ -17,7 +17,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
 
     if (!movie) return null;
 
@@ -55,3 +55,13 @@ export class MovieView extends React.Component {
     );
   }
 }
+
+MovieView.propTypes = {
+  movie: PropTypes.shape({
+    ImagePath: PropTypes.string,
+    Title: PropTypes.string,
+    Description: PropTypes.string,
+    Genre: PropTypes.object,
+    Director: PropTypes.object
+  }).isRequired,
+};

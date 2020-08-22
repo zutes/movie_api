@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 
@@ -13,7 +13,7 @@ export class DirectorView extends React.Component {
   }
 
   render() {
-    const { movies, director } = this.props;
+    const { director } = this.props;
 
     if (!director) return null;
 
@@ -36,3 +36,11 @@ export class DirectorView extends React.Component {
     );
   }
 }
+DirectorView.propTypes = {
+  director: PropTypes.shape({
+    Name: PropTypes.string,
+    Bio: PropTypes.string,
+    Birth: PropTypes.string,
+    Death: PropTypes.string
+  }).isRequired
+};

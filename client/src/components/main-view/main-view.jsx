@@ -2,18 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
 import Button from "react-bootstrap/Button";
 
 import "./main-view.scss";
 
 
-//In the section of code marked #0, you imported the relevant actions (setMovies).
-//This action will be used in code section #2, where you connect it to the MainView using, again,
-//the connect() function, which returns another function. This is basically a way of wrapping inputs and outputs to a component.
+/*In the section of code marked #0, you imported the relevant actions (setMovies).
+This action will be used in code section #2, where you connect it to the MainView using, again,
+the connect() function, which returns another function. This is basically a way of wrapping inputs and outputs to a component.*/
 
 // #0
-import { setMovies } from '../../actions/actions';
+import { setMovies, setUser } from '../../actions/actions';
 
 import MoviesList from '../movies-list/movies-list';
 
@@ -88,31 +87,39 @@ export class MainView extends React.Component {
     });
   }
 
-
-
   render() {
+    // #2
     let { movies } = this.props;
     let { user } = this.state;
+
+    if (!movies) return <div className="main-view" />;
 
     return (
       <Router>
         <div className="main-view">
           <Route exact path='/' render={() => {
             if (!user) return (<LoginView onLoggedIn={user => this.onLoggedIn(user)} />);
-            return movies.map(m => <MovieCard key={m._id} movie={m} />)
+            return <MoviesList movies={movies} />;
           }
           } />
+
           <Route path='/register' render={() => <RegistrationView />} />
+
           <Route path='/user' render={() => <ProfileView movies={movies} />} />
+
           <Route path='/movies/:movieId' render={({ match }) => (<MovieView movie={movies.find(m => m._id === match.params.movieId)} />)} />
+
           <Route path="/directors/:name" render={({ match }) => {
             if (!movies) return <div className="main-view" />;
-            return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
+            return (<DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
+            );
           }
           } />
+
           <Route path="/genres/:name" render={({ match }) => {
             if (!movies) return <div className="main-view" />;
-            return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
+            return (<GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
+            );
           }
           } />
 
@@ -129,4 +136,4 @@ let mapStateToProps = state => {
 }
 
 // #4
-export default connect(mapStateToProps, { setMovies })(MainView);
+export default connect(mapStateToProps, { setMovies, setUser })(MainView);

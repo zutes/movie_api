@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import Container from 'react-bootstrap/Container';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -18,16 +19,16 @@ export function LoginView(props) {
       Username: username,
       Password: password
     })
-    .then(response => {
-      const data = response.data;
-      props.onLoggedIn(data); //If there is a match the onLoggedIn method that was passed through the props is called
-    })
-    .catch(e => {
-      console.log('no such user')
-    });
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data); //If there is a match the onLoggedIn method that was passed through the props is called
+      })
+      .catch(e => {
+        console.log('no such user')
+      });
   };
 
-  
+
 
   return (
     <Container className="login-container">
@@ -45,15 +46,19 @@ export function LoginView(props) {
         </Form.Group>
 
         <Button variant="info" type="submit" onClick={handleSubmit}>Sign In</Button><br></br>
-     
+
         <Link to={`/register`}>
           <Button variant="link" className="registerButton" type="submit">
             New Users Register Here!
           </Button>
         </Link>
-        
+
       </Form>
     </Container>
-    );
-  }
-  
+  );
+}
+
+LoginView.propTypes = {
+  username: PropTypes.string,
+  password: PropTypes.string
+};

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import PropTypes from 'prop-types';
 
 import "./registration-view.scss";
 
@@ -71,3 +72,10 @@ export function RegistrationView(props) {
     </Form>
   );
 }
+
+RegistrationView.propTypes = {
+  username: PropTypes.string,
+  password: PropTypes.string,
+  email: PropTypes.string,
+  birthday: PropTypes.string
+};
