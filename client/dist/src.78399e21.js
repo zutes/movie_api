@@ -52409,7 +52409,11 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             }).Genre
           });
         }
-      }), _react.default.createElement(_Button.default, {
+      })), _react.default.createElement("div", null, _react.default.createElement(_Button.default, {
+        className: "logoutButton",
+        variant: "primary",
+        size: "lg",
+        block: true,
         onClick: function onClick() {
           return _this3.onLoggedOut();
         }
@@ -52607,7 +52611,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57036" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59516" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
