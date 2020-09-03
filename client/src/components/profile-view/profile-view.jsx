@@ -173,8 +173,8 @@ export class ProfileView extends React.Component {
             </Form.Group>
           </Col>
           <Row>
-            <Button variant="primary" type="button" onClick={e => this.handleSubmit(e)}>Update</Button >
-            <Button variant="primary" type="button" onClick={e => this.handleDelete(e)}>Delete Account</Button >
+            <Button className="update" variant="primary" type="button" onClick={e => this.handleSubmit(e)}>Update</Button >
+            <Button className="delete" variant="primary" type="button" onClick={e => this.handleDelete(e)}>Delete Account</Button >
 
             <Link to={`/`}>
               <Button variant="primary" type="button">Back</Button>

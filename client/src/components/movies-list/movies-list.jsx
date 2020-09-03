@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import { MovieCard } from '../movie-card/movie-card';
 
+import Col from 'react-bootstrap/Row';
+import Row from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+
+
 /*The first argument, mapStateToProps, is a function that converts or transforms the store into props that the MoviesList
 component will use. Remember that the store contains your application's state, which is why this function is called mapStateToProps.*/
 /*In the mapStateToProps function, you extracted visibilityFilter into a prop named visibilityFilter. This means that MoviesList's props
@@ -24,10 +29,20 @@ function MoviesList(props) {
 
   if (!movies) return <div className="main-view" />;
 
-  return <div className="movies-list">
-    <VisibilityFilterInput visibilityFilter={visibilityFilter} />
-    {filteredMovies.map(m => <MovieCard key={m._id} movie={m} />)}
-  </div>;
+  return (
+    <div className="movies-list">
+      <Container>
+        <Row>
+          <Col>
+            <VisibilityFilterInput visibilityFilter={visibilityFilter} />
+            {filteredMovies.map((m) => (
+              <MovieCard key={m._id} movie={m} />
+            ))}
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
 }
 
 export default connect(mapStateToProps)(MoviesList);

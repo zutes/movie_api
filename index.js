@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 bodyParser = require('body-parser');
 uuid = require('uuid');
@@ -6,8 +7,13 @@ const app = express();
 
 //App use initializations
 app.use(bodyParser.json());
-app.use(morgan('common')); /*Logging with Morgan*/
 app.use(express.static('public'));
+app.use('/client', express.static(path.join(__dirname, 'client', 'dist')));
+app.use(morgan('common')); /*Logging with Morgan*/
+
+app.get('/client/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 //Install validator
 const { check, validationResult } = require('express-validator');

@@ -95,8 +95,9 @@ export class MainView extends React.Component {
     if (!movies) return <div className="main-view" />;
 
     return (
-      <Router>
+      <Router basename='/client'>
         <div className="main-view">
+
           <Route exact path='/' render={() => {
             if (!user) return (<LoginView onLoggedIn={user => this.onLoggedIn(user)} />);
             return <MoviesList movies={movies} />;
@@ -123,8 +124,8 @@ export class MainView extends React.Component {
           }
           } />
         </div>
-        <div>
-          <Button className="logoutButton" variant="primary" size="lg" block onClick={() => this.onLoggedOut()}>Log Out</Button>
+        <div class="text-center">
+          <Button className="logoutButton" variant="primary" size="sm" onClick={() => this.onLoggedOut()}>Log Out</Button>
         </div>
       </Router>
     );
