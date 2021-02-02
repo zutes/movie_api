@@ -14,6 +14,14 @@ export function RegistrationView(props) {
   const [birthday, setBirthday] = useState("");
 
 
+  /**
+   * Registers user
+   * @function handleRegistration
+   * @param {string} username
+   * @param {string} password
+   * @param {string} email
+   * @param {date} birthday
+   */
   const handleRegistration = (e) => {
     e.preventDefault();
 
