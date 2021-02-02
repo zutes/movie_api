@@ -49,6 +49,13 @@ export class MainView extends React.Component {
     }
   }
 
+
+  /**
+   * Gets movies from the DB
+   * @function getMovies
+   * @param {*} token 
+   * @return {movies}
+   */
   getMovies(token) {
     axios.get(`https://shielded-oasis-17182.herokuapp.com/movies`, {
       headers: { Authorization: `Bearer ${token}` } //By passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
@@ -62,6 +69,11 @@ export class MainView extends React.Component {
       });
   }
 
+  /**
+   * Sets local storage items on login
+   * @function onLoggedIn
+   * @param {*} authData 
+   */
   onLoggedIn(authData) {
     this.setState({
       user: authData.user.Username
@@ -72,6 +84,10 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
+  /**
+   * Removes local storage on logout
+   * @function onLoggedOut
+   */
   onLoggedOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
