@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: profile-view/profile-view.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: profile-view/profile-view.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+
+
+export class ProfileView extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      username: null,
+      password: null,
+      email: null,
+      birthday: null,
+      //userData: null,
+      favoriteMovies: [],
+      //movies: [],
+    };
+  }
+
+
+  componentDidMount() {
+    const accessToken = localStorage.getItem('token');
+    this.getUser(accessToken);
+  }
+
+  /**
+   * Gets user info
+   * @function getUser
+   * @param {*} token 
+   * @return {object} user info
+   */
+  getUser(token) {
+    const username = localStorage.getItem('user');
+
+    axios
+      .get(`https://shielded-oasis-17182.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+
+      .then(res => {
+        this.setState({
+          username: res.data.Username,
+          password: res.data.Password,
+          email: res.data.Email,
+          birthday: res.data.Birthday,
+          favoriteMovies: res.data.FavoriteMovies,
+        });
+
+        console.log(res.data.Username);
+        console.log(res.data.Password);
+        console.log(res.data.Email);
+        console.log(res.data.Birthday);
+        console.log(res.data.FavoriteMovies);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  /**
+   * Removes favorite movie from list
+   * @function deleteFavoriteMovie
+   * @param {*} movieId 
+   */
+  deleteFavoriteMovie(movieId) {
+    axios.delete(`https://shielded-oasis-17182.herokuapp.com/users/${localStorage.getItem("user")}/movies/${movieId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    })
+      .then(response => {
+        console.log(response)
+        console.log('successfully deleted')
+        this.getUser(localStorage.token)
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  /**
+   * Updates user info
+   * @function handleUpdate
+   * @param {*} e 
+   */
+  handleUpdate(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  /**
+   * Submits user info
+   * @function handleSubmit
+   * @param {*} e 
+   */
+  handleSubmit(e) {
+    e.preventDefault();
+    axios
+      .put(
+        `https://shielded-oasis-17182.herokuapp.com/users/${localStorage.getItem("user")}`,
+        {
+          Username: this.state.usernameForm,
+          Password: this.state.passwordForm,
+          Email: this.state.emailForm,
+          Birthday: this.state.birthdayForm
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        }
+      )
+      .then(res => {
+        console.log("Your account details have been updated.");
+        localStorage.setItem("user", this.state.usernameForm);
+        this.getUser(localStorage.getItem("token"));
+        window.open("/", "_self");
+
+      })
+      .catch(error => {
+        console.log("error");
+      });
+  }
+
+  /**
+   * Deletes user from DB
+   * @function handleDelete
+   * @param {*} e 
+   * @returns {alert} deleted account notification
+   */
+  handleDelete = (e) => {
+    e.preventDefault();
+    axios.delete(`https://shielded-oasis-17182.herokuapp.com/users/${localStorage.getItem("user")}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+      .then(res => {
+        console.log("Your account has been successfully deleted.");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        window.open("/", "_self");
+      })
+      .catch(e => {
+        console.log('error deleting your account')
+      });
+  };
+
+
+  render() {
+
+    const { username, email, birthday } = this.state;
+    const { movies } = this.props;
+    const favoriteMoviesList = movies.filter((movie) =>
+      this.state.favoriteMovies.includes(movie._id)
+    );
+
+    return (
+      &lt;Container>
+        &lt;div className="profile-view">
+          &lt;Card.Body>
+            &lt;Card.Text>Username: {username}&lt;/Card.Text>
+            &lt;Card.Text>Email: {email}&lt;/Card.Text>
+            &lt;Card.Text>Birthday: {birthday}&lt;/Card.Text>
+                    Favorite Movies: {favoriteMoviesList.map((movie) => (
+              &lt;div key={movie.id} className="favorite-movies">
+                &lt;Link to={'/movies/${movie._id}'}>
+                  &lt;Button variant="link">{movie.Title}&lt;/Button>
+                &lt;/Link>
+                &lt;Button onClick={(e) => this.deleteFavoriteMovie(movie._id)}>Remove Movie&lt;/Button>
+              &lt;/div>
+            ))}
+
+          &lt;/Card.Body>
+        &lt;/div>
+
+        &lt;Form className="updateInfoForm">
+          &lt;Col xs={4}>
+            &lt;Form.Group controlId="formBasicUsername">
+              &lt;Form.Label>User name&lt;/Form.Label>
+              &lt;Form.Control type="username" placedholder="Update your user name" name='usernameForm' onChange={e => this.handleUpdate(e)} />
+            &lt;/Form.Group>
+          &lt;/Col>
+          &lt;Col xs={4}>
+            &lt;Form.Group controlId="formBasicPassword">
+              &lt;Form.Label>Password&lt;/Form.Label>
+              &lt;Form.Control type="password" placedholder="Password" name="passwordForm" onChange={e => this.handleUpdate(e)} />
+            &lt;/Form.Group>
+          &lt;/Col>
+          &lt;Col xs={4}>
+            &lt;Form.Group controlId="formBasicEmail">
+              &lt;Form.Label>Email&lt;/Form.Label>
+              &lt;Form.Control type="email" placedholder="Email" name="emailForm" onChange={e => this.handleUpdate(e)} />
+            &lt;/Form.Group>
+          &lt;/Col>
+          &lt;Col xs={4}>
+            &lt;Form.Group controlId="formBasicBirthday">
+              &lt;Form.Label>Birthday&lt;/Form.Label>
+              &lt;Form.Control type="birthday" placedholder="Birthday" name="birthdayForm" onChange={e => this.handleUpdate(e)} />
+            &lt;/Form.Group>
+          &lt;/Col>
+          &lt;Row>
+            &lt;Button className="update" variant="primary" type="button" onClick={e => this.handleSubmit(e)}>Update&lt;/Button >
+            &lt;Button className="delete" variant="primary" type="button" onClick={e => this.handleDelete(e)}>Delete Account&lt;/Button >
+
+            &lt;Link to={`/`}>
+              &lt;Button variant="primary" type="button">Back&lt;/Button>
+            &lt;/Link>
+
+          &lt;/Row>
+        &lt;/Form>
+      &lt;/Container>
+    );
+  }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#deleteFavoriteMovie">deleteFavoriteMovie</a></li><li><a href="global.html#getMovies">getMovies</a></li><li><a href="global.html#getUser">getUser</a></li><li><a href="global.html#handleDelete">handleDelete</a></li><li><a href="global.html#handleRegistration">handleRegistration</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUpdate">handleUpdate</a></li><li><a href="global.html#MoviesList">MoviesList</a></li><li><a href="global.html#onLoggedIn">onLoggedIn</a></li><li><a href="global.html#onLoggedOut">onLoggedOut</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Tue Feb 02 2021 09:27:56 GMT-0700 (Mountain Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
