@@ -30,6 +30,12 @@ export class ProfileView extends React.Component {
     this.getUser(accessToken);
   }
 
+  /**
+   * Gets user info
+   * @function getUser
+   * @param {*} token 
+   * @return {object} user info
+   */
   getUser(token) {
     const username = localStorage.getItem('user');
 
@@ -58,6 +64,11 @@ export class ProfileView extends React.Component {
       });
   }
 
+  /**
+   * Removes favorite movie from list
+   * @function deleteFavoriteMovie
+   * @param {*} movieId 
+   */
   deleteFavoriteMovie(movieId) {
     axios.delete(`https://shielded-oasis-17182.herokuapp.com/users/${localStorage.getItem("user")}/movies/${movieId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
@@ -72,10 +83,20 @@ export class ProfileView extends React.Component {
       });
   }
 
+  /**
+   * Updates user info
+   * @function handleUpdate
+   * @param {*} e 
+   */
   handleUpdate(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * Submits user info
+   * @function handleSubmit
+   * @param {*} e 
+   */
   handleSubmit(e) {
     e.preventDefault();
     axios
@@ -103,6 +124,12 @@ export class ProfileView extends React.Component {
       });
   }
 
+  /**
+   * Deletes user from DB
+   * @function handleDelete
+   * @param {*} e 
+   * @returns {alert} deleted account notification
+   */
   handleDelete = (e) => {
     e.preventDefault();
     axios.delete(`https://shielded-oasis-17182.herokuapp.com/users/${localStorage.getItem("user")}`, {
